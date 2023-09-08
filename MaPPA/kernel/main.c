@@ -11,7 +11,7 @@ int main() {
     }
 
     send_notas(md_memoria, 10, 10);
-    send_notas(md_fs, 20, 20);
+    // send_notas(md_fs, 20, 20);  Si anda bien md_memoria probamos con Filesystem
 
     cerrar_programa(logger_kernel);
     
