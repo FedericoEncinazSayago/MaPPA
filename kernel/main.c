@@ -1,7 +1,7 @@
-//#include "include/config.h"
-//#include "include/logs.h"
+#include "include/config.h"
+#include "include/logs.h"
 #include <stdio.h>
-/*
+
 t_config_kernel *config_kernel;
 t_log *logger_kernel;
 
@@ -11,9 +11,10 @@ void iniciar_config() {
     config_kernel->IP_FILESYSTEM = NULL;
     config_kernel->IP_CPU = NULL;
 }
-*/
+
+
 int main() {
-	/*
+
     logger_kernel = log_create("kernel.log", "KERNEL", true, LOG_LEVEL_INFO);
 
     int memoria, filesystem, cpu_dp, cpu_it;
@@ -23,10 +24,8 @@ int main() {
         return 1;
     }
     
-    */
 
-    printf("Kernel");
-    
 
     return 0;
+    
 }

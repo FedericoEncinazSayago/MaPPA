@@ -1,3 +1,4 @@
+
 #include "../include/iniciar_kernel.h"
 #include "../include/logs.h"
 #include <stdio.h>
@@ -50,8 +51,8 @@ uint8_t cargar_configuracion(t_config_kernel *config_kernel) {
         log_error(logger_kernel, "No se pudo cargar el archivo de configuracion");
         exit(EXIT_FAILURE);
     }
-    */
-   /*
+	*/
+
     config_kernel->IP_MEMORIA = config_get_string_value(config, "IP_MEMORIA");
     config_kernel->PUERTO_MEMORIA = config_get_int_value(config, "PUERTO_MEMORIA");
     config_kernel->IP_FILESYSTEM = config_get_string_value(config, "IP_FILESYSTEM");
@@ -64,7 +65,7 @@ uint8_t cargar_configuracion(t_config_kernel *config_kernel) {
     config_kernel->RECURSOS = config_get_array_value(config, "RECURSOS");
     config_kernel->INSTANCIAS_RECURSOS = config_get_array_value(config, "INSTANCIAS_RECURSOS");
     config_kernel->GRADO_MULTIPROGRAMACION = config_get_int_value(config, "GRADO_MULTIPROGRAMACION_INI");
-    */
+
     free(config);
     //free(configuraciones);
 
@@ -75,3 +76,4 @@ void cerrar_programa(t_log *logger_kernel, t_config_kernel *confi_kernel) {
     log_destroy(logger_kernel);
     free(config_kernel);
 }
+
