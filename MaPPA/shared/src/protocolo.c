@@ -1,21 +1,7 @@
 #include "../include/protocolo.h"
 
 // NOTAS:
-
-bool send_notas(int socket_server, uint8_t nota1, uint8_t nota2) {
-    size_t size;
-    void* stream = serializar_notas(nota1, nota2, &size);
-
-    if(send(socket_server, stream, size, 0) != size) { // send() devuelve la cantidad de bytes enviados
-        free(stream);
-
-        return false;
-    }
-
-    return true;
-}
-
-void serializar_notas(uint8_t nota1, uint8_t nota2, size_t* size) { // size_t es un tipo de dato que representa el tamaño de un objeto
+static void* serializar_notas(uint8_t nota1, uint8_t nota2) { // size_t es un tipo de dato que representa el tamaño de un objeto
     void* stream = malloc(sizeof(op_code) + sizeof(uint8_t) * 2);
 
     op_code opereacion = NOTAS;
@@ -27,6 +13,24 @@ void serializar_notas(uint8_t nota1, uint8_t nota2, size_t* size) { // size_t es
     return stream; // Devuelvo el stream
 }
 
+static void deserializar_notas(void* stream, uint8_t* nota1, uint8_t* nota2) {
+    memcpy(nota1, stream, sizeof(uint8_t)); // Copio la nota 1
+    memcpy(nota2, stream + sizeof(uint8_t), sizeof(uint8_t)); // Copio la nota 2
+}
+
+bool send_notas(int socket_server, uint8_t nota1, uint8_t nota2) {
+    size_t size = malloc(sizeof(op_code) + sizeof(uint8_t) * 2);
+    void* stream = serializar_notas(nota1, nota2);
+
+    if(send(socket_server, stream, size, 0) != size) { // send() devuelve la cantidad de bytes enviados
+        free(stream);
+
+        return false;
+    }
+
+    return true;
+}
+
 bool rcv_notas(int socket_cliente, uint8_t* nota1, uint8_t* nota2) {
     size_t size = sizeof(uint8_t) * 2;
     void* stream  = malloc(size);
@@ -36,12 +40,8 @@ bool rcv_notas(int socket_cliente, uint8_t* nota1, uint8_t* nota2) {
 
     deserializar_notas(stream, nota1, nota2);
 
+    free(stream);
     return true;
-}
-
-void deserializar_notas(void* stream, uint8_t* nota1, uint8_t* nota2) {
-    memcpy(nota1, stream, sizeof(uint8_t)); // Copio la nota 1
-    memcpy(nota2, stream + sizeof(uint8_t), sizeof(uint8_t)); // Copio la nota 2
 }
 
 bool procesar_conexion(int socket_cliente) {
@@ -61,4 +61,6 @@ bool procesar_conexion(int socket_cliente) {
             printf("Nota 1: %d\n", nota1);
             printf("Nota 2: %d\n", nota2);
     }
+
+    return true;
 }
