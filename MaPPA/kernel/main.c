@@ -9,15 +9,11 @@ int main() {
         log_error(logger_kernel, "No se pudieron generar las conexiones");
         return 1;
     }
-    uint8_t pruebadeConsola=0;
-    scanf("estamos probando :%hhu",&pruebadeConsola);
+
     send_notas(md_memoria, 5, 10);
-    scanf("estamos probando :%hhu",&pruebadeConsola);
     send_notas(md_fs,9, 10);
-    
-    scanf("estamos probando :%hhu",&pruebadeConsola);
+
     send_notas(md_cpu_dt, 7, 10);
-    scanf("estamos probando :%hhu",&pruebadeConsola);
     send_notas(md_cpu_it,8, 10);
 
     cerrar_programa(logger_kernel);
