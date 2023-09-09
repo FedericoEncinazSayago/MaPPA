@@ -24,7 +24,7 @@ $(wildcard ../makefile.targets) \
 
 
 BUILD_ARTIFACT_NAME := shared
-BUILD_ARTIFACT_EXTENSION :=
+BUILD_ARTIFACT_EXTENSION := so
 BUILD_ARTIFACT_PREFIX := lib
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
@@ -34,19 +34,19 @@ BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ART
 all: main-build
 
 # Main-build Target
-main-build: libshared
+main-build: libshared.so
 
 # Tool invocations
-libshared: $(OBJS) $(USER_OBJS) makefile $(OPTIONAL_TOOL_DEPS)
+libshared.so: $(OBJS) $(USER_OBJS) makefile $(OPTIONAL_TOOL_DEPS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -shared -o "libshared" $(OBJS) $(USER_OBJS) $(LIBS) -lcommons
+	gcc -shared -o "libshared.so" $(OBJS) $(USER_OBJS) $(LIBS) -lcommons
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) libshared
+	-$(RM) libshared.so
 	-@echo ' '
 
 .PHONY: all clean dependents main-build

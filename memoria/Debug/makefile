@@ -41,7 +41,7 @@ main-build: memoria
 memoria: $(OBJS) $(USER_OBJS) makefile $(OPTIONAL_TOOL_DEPS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc  -o "memoria" $(OBJS) $(USER_OBJS) $(LIBS) -lcommons
+	gcc -L"/home/utnso/Desktop/tp-2023-2c-Las-Jovenes-Promesas-/shared/Debug" -o "memoria" $(OBJS) $(USER_OBJS) $(LIBS) -lcommons -lshared
 	@echo 'Finished building target: $@'
 	@echo ' '
 

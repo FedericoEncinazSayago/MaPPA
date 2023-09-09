@@ -5,6 +5,7 @@
 
 
 uint8_t generar_conexiones(int *socket_memoria, int *socket_fs, int *socket_cpu_dp, int *socket_cpu_it , t_config_kernel *confi_kernel) {
+	printf("Generar Conexiones");
     char *puerto_memoria = string_itoa(confi_kernel->PUERTO_MEMORIA);
     char *puerto_fs = string_itoa(confi_kernel->PUERTO_FILESYSTEM);
     char *puerto_cpu_dispatch = string_itoa(confi_kernel->PUERTO_CPU_DISPATCH);
@@ -24,6 +25,7 @@ uint8_t generar_conexiones(int *socket_memoria, int *socket_fs, int *socket_cpu_
 }
 
 uint8_t cargar_configuracion(t_config_kernel *config_kernel) {
+	printf("Cargar Configuraciones");
     t_config* config = config_create("kernel.config");
 
     if (config == NULL) {
@@ -31,7 +33,7 @@ uint8_t cargar_configuracion(t_config_kernel *config_kernel) {
         exit(EXIT_FAILURE);
     }
 
-    /*
+
     char *configuraciones[] = {
         "IP_MEMORIA",
         "PUERTO_MEMORIA",
@@ -46,7 +48,7 @@ uint8_t cargar_configuracion(t_config_kernel *config_kernel) {
         "INSTANCIAS_RECURSOS",
         "GRADO_MULTIPROGRAMACION_INI"
     };
-    
+    /*
     if(!tiene_todas_las_configuraciones(config, configuraciones)) {
         log_error(logger_kernel, "No se pudo cargar el archivo de configuracion");
         exit(EXIT_FAILURE);
@@ -67,7 +69,7 @@ uint8_t cargar_configuracion(t_config_kernel *config_kernel) {
     config_kernel->GRADO_MULTIPROGRAMACION = config_get_int_value(config, "GRADO_MULTIPROGRAMACION_INI");
 
     free(config);
-    //free(configuraciones);
+    free(configuraciones);
 
     return 0;
 }

@@ -1,4 +1,4 @@
-//#ifndef CONFIG_H
+#ifndef CONFIG_H
 #define CONFIG_H
 
 #include <stdint.h>
@@ -21,3 +21,5 @@ typedef struct {
 } t_config_kernel;
 
 extern t_config_kernel *config_kernel;
+
+#endif
