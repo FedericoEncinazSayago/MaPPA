@@ -22,10 +22,16 @@ int main() {
     //int memoria, filesystem, cpu_dp, cpu_it;
     char* ip_memoria = "127.0.0.1"; // No HARDCODEAR!
     char* puerto_memoria = "8002";
-
+    char* ip_cpu = "127.0.0.1"; // No HARDCODEAR!
+    char* puerto_cpu = "8006";
+    char* ip_fs = "127.0.0.1"; // No HARDCODEAR!
+    char* puerto_fs = "8008";
     int md_memoria = crear_conexion(logger_kernel,"Memoria",ip_memoria ,puerto_memoria );
-
-    enviar_mensaje("HOLA",md_memoria);
+    enviar_mensaje("HOLA MEMORIA",md_memoria);
+    int md_cpu = crear_conexion(logger_kernel,"CPU",ip_cpu ,puerto_cpu);
+    enviar_mensaje("HOLA CPU",md_cpu);
+    int md_filesystem = crear_conexion(logger_kernel,"FileSystem",ip_fs ,puerto_fs );
+    enviar_mensaje("HOLA File",md_filesystem);
     log_info(logger_kernel,"pase enviar mensaje");
 
     /*

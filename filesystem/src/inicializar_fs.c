@@ -1,9 +1,8 @@
-/*
 #include "../include/inicializar_fs.h"
 #include "../include/config.h" 
 #include "../include/logs.h"
-
-void cargar_configuraciones(t_config_cpu *config_fs) {
+t_log* logger_fs;
+void cargar_configuraciones(t_config_fs* config_fs) {
     t_config* config = config_create("fs.config");
 
     if (config == NULL) {
@@ -23,12 +22,12 @@ void cargar_configuraciones(t_config_cpu *config_fs) {
         "TAM_BLOQUE"
         "RETARDO_ACCESO_BLOQUE"
         "RETARDO_ACCESO_FAT"
-    }
-
+    };
+    /*
     if(!tiene_todas_las_configuraciones(config, caracteristicas)) {
         log_error(logger_fs, "No se pudo cargar el archivo de configuracion");
         exit(EXIT_FAILURE);
-    }
+    }*/
     
     config_fs->IP_MEMORIA = config_get_string_value(config, "IP_MEMORIA");
     config_fs->PUERTO_MEMORIA = config_get_string_value(config, "PUERTO_MEMORIA");
@@ -44,4 +43,4 @@ void cargar_configuraciones(t_config_cpu *config_fs) {
 
     free(config);
     free(caracteristicas);
-}*/
+}

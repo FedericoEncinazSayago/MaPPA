@@ -4,20 +4,20 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../src/iniciar_cpu.c 
+../src/inicializar_cpu.c 
 
 C_DEPS += \
-./src/iniciar_cpu.d 
+./src/inicializar_cpu.d 
 
 OBJS += \
-./src/iniciar_cpu.o 
+./src/inicializar_cpu.o 
 
 
 # Each subdirectory must supply rules for building sources it contributes
 src/%.o: ../src/%.c src/subdir.mk
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C Compiler'
-	gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
+	gcc -I"/home/utnso/Desktop/tp-2023-2c-Las-Jovenes-Promesas-/shared/include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
@@ -25,7 +25,7 @@ src/%.o: ../src/%.c src/subdir.mk
 clean: clean-src
 
 clean-src:
-	-$(RM) ./src/iniciar_cpu.d ./src/iniciar_cpu.o
+	-$(RM) ./src/inicializar_cpu.d ./src/inicializar_cpu.o
 
 .PHONY: clean-src
 

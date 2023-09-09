@@ -32,3 +32,37 @@
 [INFO] 01:24:56:725 KERNEL/(7806:7806): Cliente conectado en 127.0.0.1:8002 (a Memoria)
 
 [INFO] 01:24:56:731 KERNEL/(7806:7806): pase enviar mensaje
+[INFO] 02:42:58:481 KERNEL/(8469:8469): Prueba
+[INFO] 02:42:58:487 KERNEL/(8469:8469): Cliente conectado en 127.0.0.1:8002 (a Memoria)
+
+[INFO] 02:42:58:490 KERNEL/(8469:8469): pase enviar mensaje
+[INFO] 02:45:38:159 KERNEL/(8904:8904): Prueba
+[INFO] 02:45:38:161 KERNEL/(8904:8904): Cliente conectado en 127.0.0.1:8002 (a Memoria)
+
+[INFO] 02:45:38:163 KERNEL/(8904:8904): Cliente conectado en 127.0.0.1:8006 (a CPU)
+
+[INFO] 02:45:38:170 KERNEL/(8904:8904): pase enviar mensaje
+[INFO] 03:03:51:493 KERNEL/(10720:10720): Prueba
+[INFO] 03:03:51:493 KERNEL/(10720:10720): Cliente conectado en 127.0.0.1:8002 (a Memoria)
+
+[INFO] 03:03:51:494 KERNEL/(10720:10720): Cliente conectado en 127.0.0.1:8006 (a CPU)
+
+[INFO] 03:03:51:506 KERNEL/(10720:10720): Cliente conectado en 127.0.0.1:8008 (a FileSystem)
+
+[INFO] 03:03:51:508 KERNEL/(10720:10720): pase enviar mensaje
+[INFO] 03:06:23:306 KERNEL/(11122:11122): Prueba
+[INFO] 03:06:23:327 KERNEL/(11122:11122): Cliente conectado en 127.0.0.1:8002 (a Memoria)
+
+[INFO] 03:06:23:327 KERNEL/(11122:11122): Cliente conectado en 127.0.0.1:8006 (a CPU)
+
+[INFO] 03:06:23:329 KERNEL/(11122:11122): Cliente conectado en 127.0.0.1:8008 (a FileSystem)
+
+[INFO] 03:06:23:330 KERNEL/(11122:11122): pase enviar mensaje
+[INFO] 03:10:38:338 KERNEL/(11621:11621): Prueba
+[INFO] 03:10:38:345 KERNEL/(11621:11621): Cliente conectado en 127.0.0.1:8002 (a Memoria)
+
+[INFO] 03:10:38:347 KERNEL/(11621:11621): Cliente conectado en 127.0.0.1:8006 (a CPU)
+
+[INFO] 03:10:38:353 KERNEL/(11621:11621): Cliente conectado en 127.0.0.1:8008 (a FileSystem)
+
+[INFO] 03:10:38:357 KERNEL/(11621:11621): pase enviar mensaje

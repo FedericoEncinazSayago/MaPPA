@@ -1,4 +1,3 @@
-/*
 #ifndef INICIAR_FS_H_
 #define INICIAR_FS_H_
 
@@ -14,6 +13,6 @@
 #include "../../shared/include/utils.h"
 #include "config.h"
 
-void cargar_configuraciones(t_config_cpu *config_cpu);
+void cargar_configuraciones(t_config_fs *config_fs);
 
 #endif /* INICIAR_FS_H_ */

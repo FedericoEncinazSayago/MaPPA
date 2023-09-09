@@ -1,0 +1,9 @@
+[INFO] 03:03:51:507 FS_SERVER/(10675:10675): Me llego el mensaje 
+[ERROR] 03:03:51:507 FS_SERVER/(10675:10675): Error al conectar (a Memoria)
+
+[INFO] 03:06:23:329 FS_SERVER/(11112:11112): Me llego el mensaje 
+[ERROR] 03:06:23:330 FS_SERVER/(11112:11112): Error al conectar (a Memoria)
+
+[INFO] 03:10:38:353 FS_SERVER/(11611:11611): Me llego el mensaje 
+[INFO] 03:10:38:354 FS_SERVER/(11611:11611): Cliente conectado en 127.0.0.1:8012 (a Memoria)
+

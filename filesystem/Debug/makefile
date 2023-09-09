@@ -9,7 +9,6 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include src/subdir.mk
--include include/subdir.mk
 -include subdir.mk
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(strip $(C_DEPS)),)
@@ -42,7 +41,7 @@ main-build: filesystem
 filesystem: $(OBJS) $(USER_OBJS) makefile $(OPTIONAL_TOOL_DEPS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc  -o "filesystem" $(OBJS) $(USER_OBJS) $(LIBS) -lcommons
+	gcc -L"/home/utnso/Desktop/tp-2023-2c-Las-Jovenes-Promesas-/shared/Debug" -o "filesystem" $(OBJS) $(USER_OBJS) $(LIBS) -lcommons -lshared
 	@echo 'Finished building target: $@'
 	@echo ' '
 

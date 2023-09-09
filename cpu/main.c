@@ -1,4 +1,4 @@
-#include "include/inicializar_m.h"
+#include "include/inicializar_cpu.h"
 #include "include/config.h"
 
 t_config_cpu *config_cpu;
@@ -24,6 +24,11 @@ int main() {
 
     int cliente_server_k= esperar_cliente(logger_cpu,"KERNEL",cpu_server);
     recibir_mensaje(cliente_server_k,logger_cpu);
+
+    char* ip_memoria = "127.0.0.1"; // No HARDCODEAR!
+    char* puerto_memoria = "8010";
+    int md_memoria = crear_conexion(logger_cpu,"Memoria",ip_memoria ,puerto_memoria );
+    enviar_mensaje("HOLA MEMORIA",md_memoria);
 
 	return 0;
 }

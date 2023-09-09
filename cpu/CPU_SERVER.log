@@ -1,0 +1,10 @@
+[INFO] 02:45:38:163 CPU_SERVER/(8431:8431): Me llego el mensaje 
+[INFO] 03:03:51:494 CPU_SERVER/(10708:10708): Me llego el mensaje 
+[ERROR] 03:03:51:495 CPU_SERVER/(10708:10708): Error al conectar (a Memoria)
+
+[INFO] 03:06:23:327 CPU_SERVER/(11102:11102): Me llego el mensaje 
+[ERROR] 03:06:23:328 CPU_SERVER/(11102:11102): Error al conectar (a Memoria)
+
+[INFO] 03:10:38:348 CPU_SERVER/(11601:11601): Me llego el mensaje 
+[INFO] 03:10:38:348 CPU_SERVER/(11601:11601): Cliente conectado en 127.0.0.1:8010 (a Memoria)
+
