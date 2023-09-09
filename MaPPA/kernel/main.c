@@ -3,9 +3,9 @@
 int main() {
     t_log* logger_kernel = log_create("kernel.log", "KERNEL", true, LOG_LEVEL_INFO);
 
-    int md_memoria = 0, md_cpu_dt = 0, md_cpu_it = 0, md_fs = 0;
+    int md_memoria = 0;
 
-    if(!generar_conexiones(logger_kernel, &md_memoria, &md_cpu_dt, &md_cpu_it, &md_fs)) {
+    if(!generar_conexiones(logger_kernel, &md_memoria) {
         log_error(logger_kernel, "No se pudieron generar las conexiones");
         return 1;
     }
