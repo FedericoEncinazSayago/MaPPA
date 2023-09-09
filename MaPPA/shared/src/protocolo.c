@@ -44,7 +44,7 @@ bool rcv_notas(int socket_cliente, uint8_t* nota1, uint8_t* nota2) {
     return true;
 }
 
-bool procesar_conexion(int socket_cliente) {
+bool procesar_conexion(int socket_cliente, t_log* logger) {
     op_code operacion;
     size_t size = sizeof(op_code);
 
@@ -57,7 +57,7 @@ bool procesar_conexion(int socket_cliente) {
             
             if(!rcv_notas(socket_cliente, &nota1, &nota2))
                 return false;
-     
+            log_info(logger, "RECIBE INFORMACION DEL KERNEL");
             printf("Nota 1: %d\n", nota1);
             printf("Nota 2: %d\n", nota2);
     }

@@ -2,6 +2,7 @@
 #define PROTOCOLO_H_
 
 #include <inttypes.h>
+#include <commons/log.h>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -19,4 +20,6 @@ typedef enum {
 
 bool send_notas(int socket_server, uint8_t nota1, uint8_t nota2);
 bool rcv_notas(int socket_server, uint8_t* nota1, uint8_t* nota2);
-bool procesar_conexion(int socket_cliente);
+bool procesar_conexion(int socket_cliente, t_log* logger) ;
+
+#endif

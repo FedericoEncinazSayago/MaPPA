@@ -61,6 +61,7 @@ int esperar_cliente(t_log* logger, const char* name, int socket_servidor) {
 
 // CLIENTE SE INTENTA CONECTAR A SERVER ESCUCHANDO EN IP:PUERTO
 int crear_conexion(t_log* logger, const char* server_name, char* ip, char* puerto) {
+
     struct addrinfo hints, *servinfo;
 
     // Init de hints
@@ -69,7 +70,9 @@ int crear_conexion(t_log* logger, const char* server_name, char* ip, char* puert
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_flags = AI_PASSIVE;
 
+
     // Recibe addrinfo
+
     getaddrinfo(ip, puerto, &hints, &servinfo);
 
     // Crea un socket con la informacion recibida (del primero, suficiente)
