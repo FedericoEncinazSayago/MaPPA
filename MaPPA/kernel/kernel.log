@@ -1,8 +1,0 @@
-[ERROR] 20:47:22:995 KERNEL/(14903:14903): Error al conectar (a CPU DT)
-
-[INFO] 20:47:22:997 KERNEL/(14903:14903): Cliente conectado en 127.0.0.1:8007 (a CPU IT)
-
-[INFO] 20:47:22:997 KERNEL/(14903:14903): Cliente conectado en 127.0.0.1:8002 (a MEMORIA)
-
-[INFO] 20:47:22:998 KERNEL/(14903:14903): Cliente conectado en 127.0.0.1:8003 (a FILESYSTEM)
-
