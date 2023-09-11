@@ -1,6 +1,7 @@
 #include "../include/init_kernel.h"
+#include "init_kernel.h"
 
-bool generar_conexiones(t_log* logger, int* md_memoria,int* md_cpu_dt,int* md_cpu_it,int* md_fs) {
+bool generar_conexiones(t_log* logger, int* md_memoria, int* md_cpu_dt, int* md_cpu_it, int* md_fs) {
  // No HARDCODEAR!
     char* puerto_memoria = "8002";
     char* ip = "127.0.0.1";
@@ -16,6 +17,44 @@ bool generar_conexiones(t_log* logger, int* md_memoria,int* md_cpu_dt,int* md_cp
 
     return *md_memoria != 0 && *md_fs != 0; // Aca pregunto por el nuevo valor!
 }
+
+bool cargar_configuraciones(t_config_k* config_kernel, t_log* logger) {
+    t_config* config = config_create("kernel.config");
+
+    if(config == NULL) {
+        log_info(logger, "No se pudo abrir el archivo de configuraciones!");
+        
+        return false;
+    }
+
+    char* configuraciones[] = {
+        "IP_MEMORIA",
+        "PUERTO_MEMORIA",
+        "IP_FILESYSTEM",
+        "PUERTO_FILESYSTEM"
+        "IP_CPU",
+        "PUERTO_CPU_DISPATCH",
+        "PUERTO_CPU_INTERRUPT",
+        "ALGORITMO_PLANIFICACION",
+        "QUANTUM",
+        "RECURSOS",
+        "INSTANCIAS_RECURSOS",
+        "GRADO_MULTIPROGRAMACION_INI",
+        NULL
+    };
+
+    if(!tiene_todas_las_configuraciones(config, configuraciones)) {
+        log_info(logger, "No se encontraron todas las configuraciones necesarias!");
+
+        return false;
+    }
+    
+    log_info(logger, "Se pudieron cargar todas las configuraciones necesarias!");
+
+    return true;
+}
+
+
 
 void cerrar_programa(t_log* logger) {
     log_destroy(logger);
