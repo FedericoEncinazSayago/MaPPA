@@ -4,7 +4,8 @@
 #include <commons/config.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdio.h>
 
-bool tiene_todas_las_claves(t_config* config, char* configs[]);
+bool tiene_todas_las_configuraciones(t_config* config, char* configs[]);
 
 #endif
