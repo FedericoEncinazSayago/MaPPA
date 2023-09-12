@@ -10,7 +10,6 @@ int main() {
     // puerto mal asignado
     int server_fs_memoria = iniciar_servidor(logger_fs_memoria, "FILESYSTEM MEMORIA", "127.0.0.1", "8007");
 
-
     int client_fs_kernel = esperar_cliente(logger_fs_kernel, "FILESYSTEM KERNEL", server_fs_kernel);
     int client_fs_memoria = esperar_cliente(logger_fs_memoria, "FILESYSTEM MEMORIA", server_fs_memoria);
 

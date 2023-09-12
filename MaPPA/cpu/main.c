@@ -18,8 +18,6 @@ int main() {
     procesar_conexion(client_k_int, logger_cpu_int);
     procesar_conexion(client_k_dis, logger_cpu_dis);
 
-
-
     // CPU COMO CLIENTE
     t_log* logger_cpu_memoria = log_create("cpu_memoria.log", "CPU MEMORIA", true, LOG_LEVEL_INFO);
 
