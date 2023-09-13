@@ -12,10 +12,10 @@ typedef struct { // Todavia no se si esto se va a quedar aca!
     char* ip_cpu;
     int puerto_cpu_ds;
     int puerto_cpu_it;
-    char* alg_planificacion;
+    char* algoritmo_planificacion;
     int quantum;
-    t_list* recursos;
-    t_list* inst_recursos;
+    char** recursos;
+    int* inst_recursos;
     int grado_multip;
 
 } t_config_k;
