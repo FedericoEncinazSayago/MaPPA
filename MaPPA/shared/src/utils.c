@@ -66,3 +66,10 @@ void recorrer_vector_char(char* vector[]) {
         printf("%s\n", vector[i]);
     }
 }
+void tipodeVariables(char* variable){//Funcion Piola 
+    if (*variable >= '0' && *variable <= '9') {
+        printf("Es un número entero: %s\n", variable);
+    } else {
+        printf("No es un número entero: %s\n", variable);
+    }
+}
