@@ -20,6 +20,6 @@ typedef enum {
 
 bool send_notas(int socket_server, uint8_t nota1, uint8_t nota2);
 bool rcv_notas(int socket_server, uint8_t* nota1, uint8_t* nota2);
-bool procesar_conexion(int socket_cliente, t_log* logger) ;
+bool procesar_conexion(int socket_cliente, t_log* logger);
 
 #endif

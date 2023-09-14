@@ -72,7 +72,6 @@ int crear_conexion(t_log* logger, const char* server_name, char* ip, char* puert
 
 
     // Recibe addrinfo
-
     getaddrinfo(ip, puerto, &hints, &servinfo);
 
     // Crea un socket con la informacion recibida (del primero, suficiente)
@@ -98,6 +97,8 @@ int crear_conexion(t_log* logger, const char* server_name, char* ip, char* puert
 
     return socket_cliente;
 }
+
+// Crear funcion que permita crear una conexion con un timer
 
 // CERRAR CONEXION
 void liberar_conexion(int* socket_cliente) {

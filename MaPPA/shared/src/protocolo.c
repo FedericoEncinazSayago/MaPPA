@@ -19,15 +19,15 @@ static void deserializar_notas(void* stream, uint8_t* nota1, uint8_t* nota2) {
 }
 
 bool send_notas(int socket_server, uint8_t nota1, uint8_t nota2) {
-    size_t size = malloc(sizeof(op_code) + sizeof(uint8_t) * 2);
+    size_t size = sizeof(op_code) + sizeof(uint8_t) * 2;
     void* stream = serializar_notas(nota1, nota2);
 
     if(send(socket_server, stream, size, 0) != size) { // send() devuelve la cantidad de bytes enviados
         free(stream);
-
         return false;
     }
-
+    
+    free(stream);
     return true;
 }
 

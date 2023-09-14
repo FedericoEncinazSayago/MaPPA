@@ -3,8 +3,7 @@
 int main() {
     t_log* logger_cpu = log_create("cpu.log", "CPU", true, LOG_LEVEL_INFO);
 
-
-    // CPU COMO SERVIDOR
+    /*
     // conecte estos loggers en la linea 10 y 11 que no estaban siendo usados pero si en "procesar conexion"
     t_log* logger_cpu_dis = log_create("cpu_dispacht.log", "CPU DISPACHT", true, LOG_LEVEL_INFO);
     t_log* logger_cpu_int = log_create("cpu_interrupt.log", "CPU INTERRUPT", true, LOG_LEVEL_INFO);
@@ -17,6 +16,7 @@ int main() {
    
     procesar_conexion(client_k_int, logger_cpu_int);
     procesar_conexion(client_k_dis, logger_cpu_dis);
+    */
 
     // CPU COMO CLIENTE
     t_log* logger_cpu_memoria = log_create("cpu_memoria.log", "CPU MEMORIA", true, LOG_LEVEL_INFO);
@@ -28,11 +28,13 @@ int main() {
         return 1;
     }
 
+    int a;
+
+    scanf("%d", &a);
+
     send_notas(md_memoria, 5, 10);
 
     cerrar_programa(logger_cpu_memoria);
-
-
 
     return 0;
 }
