@@ -1,9 +1,4 @@
 #include "../include/planificador.h"
-
-void incializarPlanificacion(){
-
-}
-
 ////////////////////////////////
 // Ingresar de cada fila/cola //
 ///////////////////////////////
@@ -19,76 +14,87 @@ void ingresarNew(char* pcb){
 // A Ready
 
 void ingresarReadyDesdeNew(){
-    sem_wait(&sem_hay_pcb_esperando_ready);
-    sem_wait(&sem_multiprogramacion);
-    log_info(logger, "Grado multiprogramacion permite entrar");
-    char* pcb = obtenerSiguienteNew();
-    addEstadoReady(pcb);
-
+    //esto deberia estar siempre activo por que es controlado 
+    //por semaforo, y seria que siempre que puedo meto a ready
+    // otra tarea desde new
+    while(1){
+        sem_wait(&sem_hay_pcb_esperando_ready);
+        sem_wait(&sem_multiprogramacion);  
+        log_info(logger, "Grado multiprogramacion permite entrar");
+        char* pcb = obtenerSiguienteNew();
+        addEstadoReady(pcb);
+        sem_post(&sem_ready);
+    }
 }
 void ingresarReadyDesdeExec(){
-    log_info(logger, "Cambio proceso en ejecucion");
     //deberia haber algo que valide si esta algo en ejecucion?
     char* pcb = obtenerProcesoExec();
-    sem_post(&sem_exec);
+    pthread_mutex_unlock(&mutex_pcb_ejecutando);
     addEstadoReady(pcb);
+    sem_post(&sem_ready);
+    log_info(logger, "Cambio proceso en ejecucion");
 }
 
 void ingresarReadyDesdeBloqueado(){
     sem_wait(&sem_bloqueado);
-    log_info(logger, "Se desbloquea un proceso");
     char* pcb = obtenerSiguienteBloqueado();
     addEstadoReady(pcb);
-        
+    sem_post(&sem_ready);
+    log_info(logger, "Se desbloquea un proceso");    
 }
 
 // A Exec
 
 void ingresarExec(){
-    sem_wait(&sem_exec);
-    log_info(logger, "Entra proceso a ejecucion");
+    while(1){
+    pthread_mutex_lock(&mutex_pcb_ejecutando);
+    sem_wait(&sem_ready);
     char* pcb = obtenerSiguienteReady();
     addEstadoExec(pcb);
+    log_info(logger, "Entra proceso a ejecucion");
+    }
 }
 
 // A Bloq
 
 void ingresarBloqueado(){
     sem_post(&sem_bloqueado);
-    log_info(logger, "Se bloquea un proceso");
     char* pcb = obtenerProcesoExec();
-    sem_post(&sem_exec);
+    pthread_mutex_unlock(&mutex_pcb_ejecutando);
     addEstadoBloqueado(pcb);
+    log_info(logger, "Se bloquea un proceso");
 }
 
 // A Exit
 
-void ingresarExitDesdeNew(){
-    char pcb = obtenerSiguienteNew();
+void ingresarExitDesdeNew(){ 
     sem_wait(&sem_hay_pcb_esperando_ready);
+    char pcb = obtenerSiguienteNew();
     addEstadoExit(pcb);
     log_info(logger, "Se libera un proceso desde New");
 }
 
 void ingresarExitDesdeReady(char* pcb){
+    sem_wait(&sem_ready);
     sem_post(&sem_multiprogramacion);
     addEstadoExit(pcb);
     log_info(logger, "Se libera un proceso desde Ready");
 }
 
 void ingresarExitDesdeExec(){
+    //hay que hacer algo que revise que no esta vacio?
     char pcb = obtenerProcesoExec();
-    sem_post(&sem_exec);
+    pthread_mutex_unlock(&mutex_pcb_ejecutando);
     sem_post(&sem_multiprogramacion);
     addEstadoExit(pcb);
     log_info(logger, "Se libera un proceso desde Exec");
 }
 
 void ingresarExitDesdeBloq(){
-    sem_post(&sem_multiprogramacion);
-    sem_wait(&sem_bloqueado);
+    sem_wait(&sem_bloqueado);   
     char pcb = obtenerSiguienteBloqueado();
     addEstadoExit(pcb);
+    sem_post(&sem_multiprogramacion);
     log_info(logger, "Se libera un proceso desde Bloqueado");
 }
 
