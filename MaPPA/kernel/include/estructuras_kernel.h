@@ -1,5 +1,5 @@
-#ifndef ESTRUCUTRAS_KERNEL_H_
-#define ESTRUCUTRAS_KERNEL_H_
+#ifndef ESTRUCTURAS_KERNEL_H_
+#define ESTRUCTURAS_KERNEL_H_
 
 #include <stdint.h>
 #include <commons/collections/list.h>

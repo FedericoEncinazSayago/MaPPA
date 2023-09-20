@@ -13,6 +13,18 @@ bool es_esta_palabra(char* palabra, char* palabraNecesaria) { // Funcion: compar
     return strcmp(palabra, palabraNecesaria) == 0;
 }
 
+bool  tiene_algun_algoritmo_de_reemplazo(char* palabra) { // Funcion: devuelve true si la palabra es CLOCK o LRU
+    if (es_esta_palabra(palabra, "FIFO"))
+        return true;
+    else 
+    {
+        if (es_esta_palabra(palabra, "LRU")) 
+            return true;
+    }
+
+    return false;
+}
+
 bool tiene_algun_algoritmo_de_planificacion(char* palabra) { // Funcion: devuelve true si la palabra es FIFO, RR o PRIORIDADES
     if (es_esta_palabra(palabra, "FIFO"))
         return true;
