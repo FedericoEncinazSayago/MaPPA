@@ -9,7 +9,8 @@
 #include "../../shared/include/sockets.h"
 #include "../../shared/include/protocolo.h"
 
-bool generar_conexiones(t_log* logger, int* md_fs);
+bool generar_conexiones(t_log* logger, int* md_fs); // No sé si lo voy a usar! 
+bool cargar_configuraciones( t_config_memoria* config_memoria, t_log* logger)
 void cerrar_programa(t_log* logger);
 
 #endif

@@ -13,7 +13,7 @@ bool generar_conexiones(t_log* logger, int* md_fs) {
     return *md_fs != 0; // Aca pregunto por el nuevo valor!
 }
 
-bool cargar_configuraciones(t_log* logger, t_config_memoria* config_memoria) {
+bool cargar_configuraciones( t_config_memoria* config_memoria, t_log* logger) {
     t_config* config_m = config_create("memoria.config");
     t_config* config_kernel = config_create("../kernel/kernel.config"); // No sé si puedo hacer esto!
 
@@ -53,7 +53,7 @@ bool cargar_configuraciones(t_log* logger, t_config_memoria* config_memoria) {
     copiar_valor(&config_memoria->ip_filesystem, config_get_string_value(config_m, "IP_FILESYSTEM"));
     copiar_valor(&config_memoria->algoritmo_reemplazo, config_get_string_value(config_m, "ALGORITMO_REEMPLAZO"));
 
-    if(!tiene_algun_algoritmo_de_reemplazo(config_memoria->algoritmo_reemplazo)) {
+    if(!tiene_algun_algoritmo_de_reemplazo(config_memoria->algoritmo_reemplazo)) { // Deberia de hacer la funcion que ya incopore el algoritmo de reemplazo?
         log_error(logger, "No se pudo cargar la configuracion");
 
         return false;
