@@ -1,0 +1,9 @@
+[INFO] 01:10:52:847 KERNEL/(50511:50511): Se pudieron cargar todas las configuraciones necesarias!
+[INFO] 01:10:52:848 KERNEL/(50511:50511): Cliente conectado en 127.0.0.1:8006 (a CPU-DT)
+
+[INFO] 01:10:52:850 KERNEL/(50511:50511): Cliente conectado en 127.0.0.1:8007 (a CPU-IT)
+
+[INFO] 01:10:52:850 KERNEL/(50511:50511): Cliente conectado en 127.0.0.1:8002 (a MEMORIA)
+
+[INFO] 01:10:52:853 KERNEL/(50511:50511): Cliente conectado en 127.0.0.1:8003 (a FILESYSTEM)
+

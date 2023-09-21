@@ -14,12 +14,19 @@
 typedef enum {
     NOTAS,
     MENSAJES,
+    SUM,
+    SUB,
+    EXIT,
+    SET
 } op_code;
 
 // uint8_t: 1 byte - 8 bits -> 0 a 255
 
 bool send_notas(int socket_server, uint8_t nota1, uint8_t nota2);
 bool rcv_notas(int socket_server, uint8_t* nota1, uint8_t* nota2);
+bool send_SET(int socket_server,uint8_t numero,u_int8_t numero2,u_int8_t res);
+bool rcv_SET(int socket_server,uint8_t* numero,u_int8_t* numero2,u_int8_t* res);
+
 bool procesar_conexion(int socket_cliente, t_log* logger) ;
 
 #endif

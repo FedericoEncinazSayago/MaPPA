@@ -12,15 +12,6 @@ int main() {
     // no esta bien asignado el puerto
     int server_memoria_cpu = iniciar_servidor(logger_memoria_cpu, "MEMORIA CPU", "127.0.0.1", "8003");
     
-    
-    int client_memoria_kernel = esperar_cliente(logger_memoria_kernel, "MEMORIA KERNEL", server_memoria_kernel);
-    int client_memoria_cpu = esperar_cliente(logger_memoria_cpu, "MEMORIA CPU", server_memoria_cpu);
-    
-    
-    procesar_conexion(client_memoria_kernel, logger_m);
-    procesar_conexion(client_memoria_cpu, logger_m);
-
-
     // MEMORIA COMO CLIENTE
     t_log* logger_memoria_fs = log_create("memoria_filesystem.log", "MEMORIA FILESYSTEM", true, LOG_LEVEL_INFO);
 
@@ -31,8 +22,14 @@ int main() {
         return 1;
     }
 
-    send_notas(md_fs, 5, 10);
+    int client_memoria_kernel = esperar_cliente(logger_memoria_kernel, "MEMORIA KERNEL", server_memoria_kernel);
+    int client_memoria_cpu = esperar_cliente(logger_memoria_cpu, "MEMORIA CPU", server_memoria_cpu);
+    
+    procesar_conexion(client_memoria_kernel, logger_m);
+    procesar_conexion(client_memoria_cpu, logger_m);
 
+    send_notas(md_fs, 1, 1);
+    
     cerrar_programa(logger_memoria_fs);
 
 

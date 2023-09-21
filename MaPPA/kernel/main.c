@@ -24,12 +24,12 @@ int main() {
         return 1;
     }
 
-    /*
-    send_notas(md_memoria, 10, 10);
-    send_notas(md_cpu_dt, 10, 10);
-    send_notas(md_cpu_it, 10, 10);
+    
+    send_notas(md_memoria, 1, 10);
+    send_notas(md_cpu_dt, 10, 40);
+    send_notas(md_cpu_it, 7, 6);
     send_notas(md_fs, 10, 10);
-    */
+    
 
     //recorrer_vector(config_kernel->recursos);
 

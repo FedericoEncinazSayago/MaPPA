@@ -29,7 +29,7 @@ int main() {
     }
 
     send_notas(md_memoria, 5, 10);
-
+    //CPU MANDA SUMA QUE RECIBE DE KERNEL
     cerrar_programa(logger_cpu_memoria);
 
 
