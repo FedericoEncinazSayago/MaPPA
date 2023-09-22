@@ -1,5 +1,13 @@
 #include "include/main.h"
 
+// esto hace que cuando cierro modulo con Ctrl + C maneja el cierre para no romper
+t_log* logger;
+
+void sighandler(int s) {
+    cerrar_programa(logger);
+    exit(0);
+}
+
 t_config_memoria* config_memoria;
 
 void inicializar_config(void) { // Voy a inicializar config de memoria!s
@@ -15,12 +23,12 @@ int main() {
     t_log* logger_m = log_create("memoria.log", "MEMORIA", true, LOG_LEVEL_INFO);
 
     if(!cargar_configuraciones(config_memoria, logger_m)) { // Traigo las configuraciones de memoria!
-        log_error(logger_m, "No se pudieron cargar las configuraciones");
+        log_error(logger_m, "No se pudieron cargar las configuraciones de memoria");
 
         return 1;
     }
 
-    iniciar_modulo() // Acá voy a crear el servidor con las cosas!
+    iniciar_modulo(); // Acá voy a crear el servidor con las cosas!
 
     cerrar_programa(logger_m);
 
