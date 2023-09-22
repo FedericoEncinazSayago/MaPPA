@@ -1,7 +1,20 @@
 #include "include/main.h"
 
 int main() {
+
     t_log* logger_cpu = log_create("cpu.log", "CPU", true, LOG_LEVEL_INFO);
+
+
+    // me traigo del archivo config los valores
+    if(!cargar_configuraciones(config_cpu, logger_cpu)) { // Traigo las configuraciones de fsconfig_fs!
+        log_error(logger_cpu, "No se pudieron cargar las configuraciones del cpu");
+
+        return 1;
+    }
+
+    iniciar_modulo(); // Acá voy a crear el servidor con las cosas!
+
+    cerrar_programa(logger_cpu);
 
     /*
     // conecte estos loggers en la linea 10 y 11 que no estaban siendo usados pero si en "procesar conexion"
@@ -19,6 +32,7 @@ int main() {
     */
 
     // CPU COMO CLIENTE
+    /*
     t_log* logger_cpu_memoria = log_create("cpu_memoria.log", "CPU MEMORIA", true, LOG_LEVEL_INFO);
 
     int md_memoria = 0;
@@ -32,9 +46,7 @@ int main() {
 
     scanf("%d", &a);
 
-    send_notas(md_memoria, 5, 10);
-
-    cerrar_programa(logger_cpu_memoria);
+    send_notas(md_memoria, 5, 10);*/
 
     return 0;
 }

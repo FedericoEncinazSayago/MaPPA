@@ -8,4 +8,13 @@
 #include "../../shared/include/sockets.h"
 #include "../../shared/include/protocolo.h"
 
+#include <pthread.h>
+#include <unistd.h>
+#include "init_cpu.h"
+#include "estructuras_cpu.h"
+#include "comunicacion.h"
+
+
+extern t_config_cpu* config_cpu;
+
 #endif
