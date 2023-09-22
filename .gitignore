@@ -1,4 +1,6 @@
-.log
-.obj
-.vscode
+# no trackear estos archivos
+
+*.log
 obj/
+*.out
+.vscode
