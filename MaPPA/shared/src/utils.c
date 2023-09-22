@@ -13,6 +13,18 @@ bool es_esta_palabra(char* palabra, char* palabraNecesaria) { // Funcion: compar
     return strcmp(palabra, palabraNecesaria) == 0;
 }
 
+bool  tiene_algun_algoritmo_de_reemplazo(char* palabra) { // Funcion: devuelve true si la palabra es CLOCK o LRU
+    if (es_esta_palabra(palabra, "FIFO"))
+        return true;
+    else 
+    {
+        if (es_esta_palabra(palabra, "LRU")) 
+            return true;
+    }
+
+    return false;
+}
+
 bool tiene_algun_algoritmo_de_planificacion(char* palabra) { // Funcion: devuelve true si la palabra es FIFO, RR o PRIORIDADES
     if (es_esta_palabra(palabra, "FIFO"))
         return true;
@@ -56,20 +68,11 @@ void crear_vector_dinamico_int(int** vector, char* informacion[]) {
     int cantidad_de_elementos = string_array_size(informacion);
     *vector = (int *)malloc(sizeof(int *) * (cantidad_de_elementos + 1));
 
-    for (size_t i = 0; informacion[i] != NULL; i++) {
+    for (size_t i = 0; informacion[i] != NULL; i++)
         (*vector)[i] = atoi(informacion[i]);
-    }
 }
 
 void recorrer_vector_char(char* vector[]) {
-    for(int i = 0; vector[i] != NULL; i++) {
+    for(int i = 0; vector[i] != NULL; i++)
         printf("%s\n", vector[i]);
-    }
-}
-void tipodeVariables(char* variable){//Funcion Piola 
-    if (*variable >= '0' && *variable <= '9') {
-        printf("Es un número entero: %s\n", variable);
-    } else {
-        printf("No es un número entero: %s\n", variable);
-    }
 }
