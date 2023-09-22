@@ -24,4 +24,8 @@ typedef struct { // PCB de un proceso
     char** archivos_abiertos; 
 }t_pcb;
 
+typedef struct {
+
+}; // Struct en construccion!
+
 #endif /* ESTRUCTURAS_SHARED_H_ */
