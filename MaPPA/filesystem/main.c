@@ -1,18 +1,39 @@
 #include "include/main.h"
 
+// esto hace que cuando cierro modulo con Ctrl + C maneja el cierre para no romper
+t_log* logger;
+
+void sighandler(int s) {
+    cerrar_programa(logger);
+    exit(0);
+}
+
+// levanto los parametros del config
+t_config_fs* config_fs;
+
+void inicializar_config(void) { // Voy a inicializar config de fs!s
+    config_fs = malloc(sizeof(t_config_fs));    // define el tamaño total del config
+    config_fs->ip_memoria = NULL;
+    config_fs->path_fath = NULL;
+    config_fs->path_bloques = NULL;
+    config_fs->path_fcb = NULL;
+}
+
 int main() {
-    // t_log* logger_fs = log_create("filesystem.log", "FILESYSTEM", true, LOG_LEVEL_INFO);
-    // t_log* logger_fs_kernel = log_create("filesystem_kernel.log", "FILESYSTEM KERNEL", true, LOG_LEVEL_INFO);
+
     t_log* logger_fs = log_create("filesystem_memoria.log", "FILESYSTEM", true, LOG_LEVEL_INFO);
 
-    int server_fs = iniciar_servidor(logger_fs, "FILESYSTEM", "127.0.0.1", "8003");
-    int md_memoria = crear_conexion(logger_fs, "MEMORIA", "127.0.0.1", "8002");
 
-    // int client_fs_kernel = esperar_cliente(logger_fs_kernel, "FILESYSTEM KERNEL", server_fs);
-    // int client_fs_memoria = esperar_cliente(logger_fs, "FILESYSTEM MEMORIA", server_fs);
+    // me traigo del archivo config los valores
+    if(!cargar_configuraciones(config_fs, logger_fs)) { // Traigo las configuraciones de fsconfig_fs!
+        log_error(logger_fs, "No se pudieron cargar las configuraciones del fs");
 
-    send_notas(md_memoria, 5, 10);
-    // procesar_conexion(client_fs_memoria, logger_fs_memoria);
-    
+        return 1;
+    }
+
+    iniciar_modulo(); // Acá voy a crear el servidor con las cosas!
+
+    cerrar_programa(logger_fs);
+
     return 0;
 }
