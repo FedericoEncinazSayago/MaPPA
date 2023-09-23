@@ -27,7 +27,7 @@ int main() {
         log_error(logger_cpu_memoria, "No se pudieron generar la conexion como cliente a la memoria");
         return 1;
     }
-
+//
     send_notas(md_memoria, 5, 10);
     //CPU MANDA SUMA QUE RECIBE DE KERNEL
     cerrar_programa(logger_cpu_memoria);
