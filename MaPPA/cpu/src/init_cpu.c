@@ -1,7 +1,7 @@
 #include "../include/init_cpu.h"
 
 bool cargar_configuraciones( t_config_cpu* config_cpu, t_log* logger) {
-    t_config* config_cpu_open = config_create("fs.config");
+    t_config* config_cpu_open = config_create("cpu.config");
 
     if(config_cpu == NULL) {
         log_error(logger, "No se pudo cargar la configuracion del filesystem");
