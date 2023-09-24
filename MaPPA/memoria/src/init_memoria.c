@@ -62,13 +62,15 @@ bool cargar_configuraciones( t_config_memoria* config_memoria, t_log* logger) {
     log_info(logger, "Configuraciones cargadas correctamente");
     config_destroy(config_m);
     config_destroy(config_kernel);
+
+    return true;
 }
 
-void iniciar_modulo(t_log* loggerMemoria, t_config_memoria* config_memoria,) {
+void iniciar_modulo(t_log* loggerMemoria, t_config_memoria* config_memoria) {
     char* ip_escucha = config_memoria->ip_escucha;
     char* puerto_escucha = string_itoa(config_memoria->puerto_escucha);
 
-    md_memoria = iniciar_servidor(loggerMemoria, "MEMORIA", ip_escucha, puerto_escucha);
+    int md_memoria = iniciar_servidor(loggerMemoria, "MEMORIA", ip_escucha, puerto_escucha);
 
     // Operaciones de memoria que desconozco! 
 

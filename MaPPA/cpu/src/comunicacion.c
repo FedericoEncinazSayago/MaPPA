@@ -38,20 +38,20 @@ void atender_conexion(t_log* logger, char* server_name, int cliente_socket) { //
     return;
 }
 
-void* server_escuchar(void* args) {
+void server_escuchar(void* args) {
     t_procesar_server* args_hilo = (t_procesar_server*) args;
     t_log* logger_server = args_hilo->logger;
     char* server_name = args_hilo->server_name;
     int socket_server = args_hilo->socket_server;
 
+
+    int socket_cliente = esperar_cliente(logger_server, server_name, socket_server);
+
     while (1)
     {
-        int socket_cliente = esperar_cliente(logger_server, server_name, socket_server);
 
         if(socket_cliente != -1) {
             atender_conexion(logger_server, server_name, socket_cliente);            
-
-            continue;
         }
     }
 

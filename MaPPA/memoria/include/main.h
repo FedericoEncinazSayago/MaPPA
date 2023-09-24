@@ -12,6 +12,6 @@
 #include "../../shared/include/sockets.h"
 #include "../../shared/include/protocolo.h"
 
-extern t_config_m* config_memoria;
+extern t_config_memoria* config_memoria;
 
 #endif

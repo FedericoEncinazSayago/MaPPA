@@ -8,28 +8,15 @@ static void atender_conexiones(void* args) {
     free(args);
 
     op_code cop;
-    while (cliente_socket != -1) {
+
 
         if (recv(cliente_socket, &cop, sizeof(op_code), 0) != sizeof(op_code)) {
             log_info(logger, "DISCONNECT!");
-            break;
+        
         }
 
         switch (cop) {
-            case NOTAS:
-            {
-                uint8_t nota1, nota2;
-
-                if (!rcv_notas(cliente_socket, &nota1, &nota2)) {
-                    log_error(logger, "Fallo recibiendo APROBAR_OPERATIVOS");
-                    break;
-                }
-
-                log_info(logger, "Aprobe operativos con %" PRIu8 " y %" PRIu8 "!", nota1, nota2);
-
-                break;
-            }
-
+        
             // Errores
             case -1:
                 log_error(logger, "Cliente desconectado de %s...", server_name);
@@ -38,7 +25,6 @@ static void atender_conexiones(void* args) {
                 log_error(logger, "Algo anduvo mal en el server de %s", server_name);
                 return;
         }
-    }
 
     log_warning(logger, "El cliente se desconecto de %s server", server_name);
     return;

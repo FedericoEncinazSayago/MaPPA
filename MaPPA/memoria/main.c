@@ -21,6 +21,7 @@ void inicializar_config(void) { // Voy a inicializar config de memoria!s
 int main() {
 
     t_log* logger_m = log_create("memoria.log", "MEMORIA", true, LOG_LEVEL_INFO);
+    inicializar_config();
 
     if(!cargar_configuraciones(config_memoria, logger_m)) { // Traigo las configuraciones de memoria!
         log_error(logger_m, "No se pudieron cargar las configuraciones de memoria");
@@ -28,7 +29,7 @@ int main() {
         return 1;
     }
 
-    iniciar_modulo(); // Acá voy a crear el servidor con las cosas!
+    iniciar_modulo(logger_m, config_memoria); // Acá voy a crear el servidor con las cosas!
 
     cerrar_programa(logger_m);
 

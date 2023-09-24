@@ -11,6 +11,6 @@
 #include "../../shared/include/sockets.h"
 
 void atender_conexion(t_log* logger, char* server_name, int cliente_socket);
-void* server_escuchar(void* args);
+void server_escuchar(void* args);
 
 #endif
