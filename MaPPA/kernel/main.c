@@ -31,7 +31,7 @@ int main() {
     }
 
     // Fede en momento de insipiracion!
-    iniciar_modulo() // Funcion en proceso de creacion! 
+    iniciar_modulo(); // Funcion en proceso de creacion! 
 
     cerrar_programa(logger_kernel);
 

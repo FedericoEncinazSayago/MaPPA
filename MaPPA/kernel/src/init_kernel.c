@@ -86,3 +86,8 @@ bool cargar_configuraciones(t_config_k* config_kernel, t_log* logger) {
 void cerrar_programa(t_log* logger) {
     log_destroy(logger);
 }
+
+
+ void iniciar_modulo(){
+    iniciarConsola();
+ }
