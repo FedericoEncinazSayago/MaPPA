@@ -20,14 +20,34 @@ typedef enum {
     MENSAJES,
 } op_code;
 
+typedef struct
+{
+	int size;
+	void* stream;
+} t_buffer;
+
+typedef struct
+{
+	op_code codigo_operacion;
+	t_buffer* buffer;
+} t_paquete;
+
+
 // uint8_t: 1 byte - 8 bits -> 0 a 255
 
-bool send_notas(int socket_server, uint8_t nota1, uint8_t nota2);
-bool rcv_notas(int socket_server, uint8_t* nota1, uint8_t* nota2);
-bool procesar_conexion(int socket_cliente, t_log* logger);
+t_paquete* crear_paquete(op_code operacion);
+void crear_buffer(t_paquete* paquete);
+void agregar_a_paquete(t_paquete* paquete, void* valor, int tamanio);
+void enviar_paquete(t_paquete* paquete, int socket_cliente);
+void* serializar_paquete(t_paquete* paquete, int bytes);
+void eliminar_paquete(t_paquete* paquete);
+void* recibir_buffer(int* size, int socket_cliente);
 
 // Operaciones de CPU
-bool send_contexto_ejecucion(int socket_server, t_contexto_ejecucion* contexto);
-bool rcv_contexto_ejecucion(int socket_server, t_contexto_ejecucion** contexto);
+void send_contexto_ejecucion(op_code operacion, int socket_cliente, t_pcb* proceso);
+void agregar_a_paquete_PCB(t_paquete* paquete, t_pcb* proceso);
+void agregar_a_paquete_registros(t_paquete* paquete, t_registros_cpu* registros);
+void agregar_a_paquete_archivos_abiertos(t_paquete* paquete, t_list* archivos_abiertos);
+t_pcb* rcv_contexto_ejecucion(int socket_cliente);
 
 #endif

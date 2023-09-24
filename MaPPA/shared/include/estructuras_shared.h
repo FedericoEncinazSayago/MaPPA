@@ -2,6 +2,7 @@
 #define ESTRUCTURAS_SHARED_H_
 
 #include <commons/log.h>
+#include <commons/collections/list.h>
 #include <stdint.h>
 
 typedef struct {
@@ -20,19 +21,8 @@ typedef struct { // Registro de la CPU
 typedef struct { // PCB de un proceso
     int pid;
     int program_counter;
-    t_registros_cpu registros;
-    char** archivos_abiertos; 
+    t_registros_cpu* registros;
+    t_list* archivos_abiertos; 
 } t_pcb;
-
-typedef struct {
-    int pid 
-    int programa_counter;
-    t_registros_cpu registros;
-    char** archivos_abiertos;
-} t_contexto_ejecucion;
-
-typedef struct {
-
-}; // Struct en construccion!
 
 #endif /* ESTRUCTURAS_SHARED_H_ */

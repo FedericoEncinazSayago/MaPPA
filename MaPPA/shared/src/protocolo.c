@@ -1,66 +1,140 @@
 #include "../include/protocolo.h"
 
-// NOTAS:
-static void* serializar_notas(uint8_t nota1, uint8_t nota2) { // size_t es un tipo de dato que representa el tamaño de un objeto
-    void* stream = malloc(sizeof(op_code) + sizeof(uint8_t) * 2);
-
-    op_code opereacion = NOTAS;
-
-    memcpy(stream, &opereacion, sizeof(op_code)); // Copio el código de operación
-    memcpy(stream + sizeof(op_code), &nota1, sizeof(uint8_t)); // Copio la nota 1
-    memcpy(stream + sizeof(op_code) + sizeof(uint8_t), &nota2, sizeof(uint8_t)); // Copio la nota 2
-
-    return stream; // Devuelvo el stream
+t_paquete* crear_paquete(op_code operacion) {
+	t_paquete* paquete = malloc(sizeof(t_paquete));
+    paquete->codigo_operacion = operacion;
+	crear_buffer(paquete);
+	return paquete;
 }
 
-static void deserializar_notas(void* stream, uint8_t* nota1, uint8_t* nota2) {
-    memcpy(nota1, stream, sizeof(uint8_t)); // Copio la nota 1
-    memcpy(nota2, stream + sizeof(uint8_t), sizeof(uint8_t)); // Copio la nota 2
+void crear_buffer(t_paquete* paquete) {
+	paquete->buffer = malloc(sizeof(t_buffer));
+	paquete->buffer->size = 0;
+	paquete->buffer->stream = NULL;
 }
 
-bool send_notas(int socket_server, uint8_t nota1, uint8_t nota2) {
-    size_t size = sizeof(op_code) + sizeof(uint8_t) * 2;
-    void* stream = serializar_notas(nota1, nota2);
+void agregar_a_paquete(t_paquete* paquete, void* valor, int tamanio) {
+	paquete->buffer->stream = realloc(paquete->buffer->stream, paquete->buffer->size + tamanio + sizeof(int));
 
-    if(send(socket_server, stream, size, 0) != size) { // send() devuelve la cantidad de bytes enviados
-        free(stream);
-        return false;
+	memcpy(paquete->buffer->stream + paquete->buffer->size, &tamanio, sizeof(int));
+	memcpy(paquete->buffer->stream + paquete->buffer->size + sizeof(int), valor, tamanio);
+
+	paquete->buffer->size += tamanio + sizeof(int);
+}
+
+void enviar_paquete(t_paquete* paquete, int socket_cliente) {
+	int bytes = paquete->buffer->size + 2 * sizeof(int);
+	void* a_enviar = serializar_paquete(paquete, bytes);
+
+	send(socket_cliente, a_enviar, bytes, 0);
+
+	free(a_enviar);
+}
+
+void* serializar_paquete(t_paquete* paquete, int bytes) {
+	void * magic = malloc(bytes);
+	int desplazamiento = 0;
+
+	memcpy(magic + desplazamiento, &(paquete->codigo_operacion), sizeof(int));
+	desplazamiento+= sizeof(int);
+	memcpy(magic + desplazamiento, &(paquete->buffer->size), sizeof(int));
+	desplazamiento+= sizeof(int);
+	memcpy(magic + desplazamiento, paquete->buffer->stream, paquete->buffer->size);
+	desplazamiento+= paquete->buffer->size;
+
+	return magic;
+}
+
+void eliminar_paquete(t_paquete* paquete) {
+	free(paquete->buffer->stream);
+	free(paquete->buffer);
+	free(paquete);
+}
+
+void* recibir_buffer(int* size, int socket_cliente) {
+	void * buffer;
+
+	recv(socket_cliente, size, sizeof(int), MSG_WAITALL);
+	buffer = malloc(*size);
+	recv(socket_cliente, buffer, *size, MSG_WAITALL);
+
+	return buffer;
+}
+
+void send_contexto_ejecucion(op_code operacion, int socket_cliente, t_pcb* proceso) {
+    t_paquete* paquete = crear_paquete(operacion);
+    agregar_a_paquete_PCB(paquete, proceso);
+    agregar_a_paquete_registros(paquete, proceso->registros);
+    agregar_a_paquete_archivos_abiertos(paquete, proceso->archivos_abiertos);
+
+    enviar_paquete(paquete, socket_cliente);
+    eliminar_paquete(paquete);
+}
+
+void agregar_a_paquete_PCB(t_paquete* paquete, t_pcb* proceso) {
+    agregar_a_paquete(paquete, &proceso->pid, sizeof(int));
+    agregar_a_paquete(paquete, &proceso->program_counter, sizeof(int));
+}
+
+void agregar_a_paquete_registros(t_paquete* paquete, t_registros_cpu* registros) {
+    agregar_a_paquete(paquete, &registros->AX, sizeof(uint32_t));
+    agregar_a_paquete(paquete, &registros->BX, sizeof(uint32_t));
+    agregar_a_paquete(paquete, &registros->CX, sizeof(uint32_t));
+    agregar_a_paquete(paquete, &registros->DX, sizeof(uint32_t));
+}
+
+void agregar_a_paquete_archivos_abiertos(t_paquete* paquete, t_list* archivos_abiertos) {
+    int cantidad_archivos = list_size(archivos_abiertos);
+
+    for(int i = 0; i < cantidad_archivos; i++) {
+        char* archivo = list_get(archivos_abiertos, i);
+        agregar_a_paquete(paquete, archivo, strlen(archivo) + 1);
     }
-    
-    free(stream);
-    return true;
 }
 
-bool rcv_notas(int socket_cliente, uint8_t* nota1, uint8_t* nota2) {
-    size_t size = sizeof(uint8_t) * 2;
-    void* stream  = malloc(size);
+t_pcb* rcv_contexto_ejecucion(int socket_cliente) {
+    t_pcb* proceso = malloc(sizeof(t_pcb));
+    proceso->registros = malloc(sizeof(t_registros_cpu));
+    proceso->archivos_abiertos = list_create();
 
-    if(recv(socket_cliente, stream, size, 0) != size) // recv() devuelve la cantidad de bytes recibidos
-        return false;
+    // PCB -> PID, PC, Registros, Archivos abiertos
 
-    deserializar_notas(stream, nota1, nota2);
+    int desplazamiento = 0;
+    void* buffer = recibir_buffer(&size, socket_cliente);
 
-    free(stream);
-    return true;
-}
+    memcpy(&proceso->pid, buffer + desplazamiento, sizeof(int));
+    desplazamiento += sizeof(int);
 
-bool procesar_conexion(int socket_cliente, t_log* logger) {
-    op_code operacion;
-    size_t size = sizeof(op_code);
+    memcpy(&proceso->program_counter, buffer + desplazamiento, sizeof(int));
+    desplazamiento += sizeof(int);
 
-    if(recv(socket_cliente, &operacion, size, 0) != size)  // recv() devuelve la cantidad de bytes recibidos
-        return false;
+    memcpy(&proceso->registros->AX, buffer + desplazamiento, sizeof(uint32_t));
+    desplazamiento += sizeof(uint32_t);
 
-    switch(operacion) {
-        case NOTAS:
-            uint8_t nota1, nota2;
-            
-            if(!rcv_notas(socket_cliente, &nota1, &nota2))
-                return false;
-            log_info(logger, "RECIBE INFORMACION DEL KERNEL");
-            printf("Nota 1: %d\n", nota1);
-            printf("Nota 2: %d\n", nota2);
+    memcpy(&proceso->registros->BX, buffer + desplazamiento, sizeof(uint32_t));
+    desplazamiento += sizeof(uint32_t);
+
+    memcpy(&proceso->registros->CX, buffer + desplazamiento, sizeof(uint32_t));
+    desplazamiento += sizeof(uint32_t);
+
+    memcpy(&proceso->registros->DX, buffer + desplazamiento, sizeof(uint32_t));
+    desplazamiento += sizeof(uint32_t);
+
+    int tamanio;
+
+    while(desplazamiento < size) {
+        memcpy(&tamanio, buffer + desplazamiento, sizeof(int));
+        desplazamiento += sizeof(int);
+
+        char* archivo = malloc(tamanio);
+        memcpy(archivo, buffer + desplazamiento, tamanio);
+        desplazamiento += tamanio;
+
+        list_add(proceso->archivos_abiertos, archivo);
     }
 
-    return true;
+    free(buffer);
+    return proceso;
 }
+
+
