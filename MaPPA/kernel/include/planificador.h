@@ -13,7 +13,7 @@
 #include "../../shared/include/utils.h"
 #include "../../shared/include/estructuras_shared.h"
 
-
+int pid_nuevo;
 t_log * logger;
 //semaforos mutex
 pthread_mutex_t mutex_estado_new;

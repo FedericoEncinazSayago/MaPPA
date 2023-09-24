@@ -4,20 +4,31 @@
 /////////////////////////
 
 void inicializarPlanificacion(){
-    pthread_t tid[2];
+    pthread_t tid[5];
     int HiloReadyDesdeNew = pthread_create(&(tid[0]), NULL, ingresarReadyDesdeNew, NULL);
     int HiloExec = pthread_create(&(tid[1]), NULL, ingresarExec, NULL);
+    pthread_join(HiloReadyDesdeNew,NULL);
+    pthread_join(HiloExec,NULL);
+
+
 }
 
 ///////////////
 // crear pcb //
 ///////////////
 
-/*
-t_pcb* iniciarPcb(t_proceso* proceso){
 
+t_pcb* iniciarPcb(){ //t_proceso* proceso estaria bueno para definir la data que venga de lo que se lea en consola
+    pid_nuevo = pid_nuevo+1;
+    t_pcb* pcb = malloc(sizeof(t_pcb));
+    pcb->pid = pid_nuevo;
+    pcb->program_counter = 0; //a definir segun el path 
+    pcb->registros = NULL;
+    pcb->archivos_abiertos = NULL;
+
+    return pcb;
 }
-*/
+
 
 ////////////////////////////////
 // Ingresar de cada fila/cola //
