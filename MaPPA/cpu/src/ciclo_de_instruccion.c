@@ -1,6 +1,7 @@
-bool check_interrupt = false;
+#include "../include/ciclo_de_instruccion.h"
 
-void ciclo_de_instruccion(t_contexto_ejecucion proceso) {
+/*
+void ciclo_de_instruccion(t_pcb* proceso) {
     int md_memoria = crear_conexion(); // Conectamos con memoria!
 
     while(1) {
@@ -20,3 +21,4 @@ void ciclo_de_instruccion(t_contexto_ejecucion proceso) {
         
     }
 }
+*/

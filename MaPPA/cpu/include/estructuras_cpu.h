@@ -11,6 +11,8 @@ typedef struct {
     t_log* logger;
     char* server_name;
     int socket_server;
-} t_procesar_server; 
+} t_procesar_server;
+
+extern t_config_cpu* config_cpu;
 
 #endif /* ESTRUCTURAS_cpu_H_ */

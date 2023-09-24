@@ -13,10 +13,10 @@ bool generar_conexiones(t_log* logger, int* md_memoria) {
     return *md_memoria != 0; // Aca pregunto por el nuevo valor!
 }
 
-bool cargar_configuraciones( t_config_cpu* config_cpu, t_log* logger) {
+bool cargar_configuraciones(t_config_cpu* config_cpu, t_log* logger) {
     t_config* config_c = config_create("cpu.config");
 
-    if(config_cpu == NULL) {
+    if(config_c == NULL) {
         log_error(logger, "No se pudo cargar la configuracion del filesystem");
 
         return false;
@@ -30,7 +30,7 @@ bool cargar_configuraciones( t_config_cpu* config_cpu, t_log* logger) {
         NULL
     };
 
-    if(!tiene_todas_las_configuraciones(config_cpu, configuraciones)) {
+    if(!tiene_todas_las_configuraciones(config_c, configuraciones)) {
         log_error(logger, "No se pudo cargar la configuracion del cpu");
 
         return false;
@@ -38,22 +38,25 @@ bool cargar_configuraciones( t_config_cpu* config_cpu, t_log* logger) {
     
 
     copiar_valor(&config_cpu->ip_memoria, config_get_string_value(config_c, "IP_MEMORIA"));
+
     config_cpu->puerto_memoria = config_get_int_value(config_c, "PUERTO_MEMORIA");
     config_cpu->puerto_escucha_dispatch = config_get_int_value(config_c, "PUERTO_ESCUCHA_DISPATCH");
     config_cpu->puerto_escucha_interrupt = config_get_int_value(config_c, "PUERTO_ESCUCHA_INTERRUPT");
 
     log_info(logger, "Configuraciones cargadas correctamente");
     config_destroy(config_c);
+
+    return true;
 }
 
-bool crear_servidores(t_logger* logger, t_config_cpu* config_cpu, int* md_cpu_ds, int* md_cpu_it) {
+bool crear_servidores(t_log* logger, t_config_cpu* config_cpu, int* md_cpu_ds, int* md_cpu_it) {
     char* puerto_dispatch = string_itoa(config_cpu->puerto_escucha_dispatch);
     char* puerto_interrupt = string_itoa(config_cpu->puerto_escucha_interrupt);
     char* ip_cpu_ds = config_cpu->ip_memoria;
     char* ip_cpu_it = config_cpu->ip_memoria;
 
-    *md_cpu_ds = crear_conexion(logger, "DISPATCH", ip_cpu_ds, puerto_dispatch);
-    *md_cpu_it = crear_conexion(logger, "INTERRUPT", ip_cpu_it, puerto_interrupt);
+    *md_cpu_ds = iniciar_servidor(logger, "DISPATCH", ip_cpu_ds, puerto_dispatch);
+    *md_cpu_it = iniciar_servidor(logger, "INTERRUPT", ip_cpu_it, puerto_interrupt);
 
     return *md_cpu_ds != 0 && *md_cpu_it != 0;
 }

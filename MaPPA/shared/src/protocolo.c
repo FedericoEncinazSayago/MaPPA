@@ -98,7 +98,7 @@ t_pcb* rcv_contexto_ejecucion(int socket_cliente) {
     proceso->archivos_abiertos = list_create();
 
     // PCB -> PID, PC, Registros, Archivos abiertos
-
+    int size;
     int desplazamiento = 0;
     void* buffer = recibir_buffer(&size, socket_cliente);
 

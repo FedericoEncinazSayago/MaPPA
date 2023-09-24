@@ -1,6 +1,6 @@
 #include "../include/comunicacion.h"
 
-void atender_conexion(t_log* logger, int cliente_socket) { // Si el server tuviera que procesar varias solicitudes del mismo cliente, esto debería ser un while
+void atender_conexion(t_log* logger, char* server_name, int cliente_socket) { // Si el server tuviera que procesar varias solicitudes del mismo cliente, esto debería ser un while
     op_code cop;
 
     if (recv(cliente_socket, &cop, sizeof(op_code), 0) != sizeof(op_code)) {
@@ -12,21 +12,15 @@ void atender_conexion(t_log* logger, int cliente_socket) { // Si el server tuvie
     switch (cop) {
         case EJECUTAR_PROCESO:
         {
-            t_contexto_ejecucion* proceso;
+            t_pcb* proceso = rcv_contexto_ejecucion(cliente_socket);
 
-            if (!rcv_contexto_ejecucion(cliente_socket, &proceso)) {
-                log_error(logger, "Fallo recibiendo EJECUTAR_PROCESO");
-                break;
-            }
-
-            ciclo_de_instruccion(proceso);
-            send_contexto_ejecucion(cliente_socket, proceso);
-            check_interrupt = false;
+            //ciclo_de_instruccion(proceso);
+            send_contexto_ejecucion(RECIBIR_PROCESO, cliente_socket, proceso);
+            //check_interrupt = false;
             break;
         }
         case INTERRUPT:
         {
-            check_interrupt = true;
             break;
         }
 
@@ -55,7 +49,7 @@ void* server_escuchar(void* args) {
         int socket_cliente = esperar_cliente(logger_server, server_name, socket_server);
 
         if(socket_cliente != -1) {
-            atender_conexion(logger_server, socket_cliente);            
+            atender_conexion(logger_server, server_name, socket_cliente);            
 
             continue;
         }

@@ -10,13 +10,13 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
+#include "estructuras_shared.h"
 
 typedef enum {
     INICIAR_PROCESO,
-    FETCH,
-    DECODE,
-    EXECUTE,
-    
+    EJECUTAR_PROCESO,
+    INTERRUPT,
+    RECIBIR_PROCESO,
     MENSAJES,
 } op_code;
 
