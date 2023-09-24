@@ -1,7 +1,6 @@
 #ifndef ESTRUCTURAS_MEMORIA_H_
 #define ESTRUCTURAS_MEMORIA_H_
 
-
 typedef struct {
     char* ip_escucha; // IP de escucha de la memoria
     int puerto_escucha; // Puerto de escucha de la memoria
