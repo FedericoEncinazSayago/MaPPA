@@ -22,7 +22,14 @@ typedef struct { // PCB de un proceso
     int program_counter;
     t_registros_cpu registros;
     char** archivos_abiertos; 
-}t_pcb;
+} t_pcb;
+
+typedef struct {
+    int pid 
+    int programa_counter;
+    t_registros_cpu registros;
+    char** archivos_abiertos;
+} t_contexto_ejecucion;
 
 typedef struct {
 

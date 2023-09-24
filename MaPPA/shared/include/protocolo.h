@@ -12,7 +12,11 @@
 #include <stdlib.h>
 
 typedef enum {
-    NOTAS,
+    INICIAR_PROCESO,
+    FETCH,
+    DECODE,
+    EXECUTE,
+    
     MENSAJES,
 } op_code;
 
@@ -21,5 +25,9 @@ typedef enum {
 bool send_notas(int socket_server, uint8_t nota1, uint8_t nota2);
 bool rcv_notas(int socket_server, uint8_t* nota1, uint8_t* nota2);
 bool procesar_conexion(int socket_cliente, t_log* logger);
+
+// Operaciones de CPU
+bool send_contexto_ejecucion(int socket_server, t_contexto_ejecucion* contexto);
+bool rcv_contexto_ejecucion(int socket_server, t_contexto_ejecucion** contexto);
 
 #endif
