@@ -67,45 +67,50 @@ void SET(char registro,uint8_t valor){
         break;
 
     }
-
+    //operacion=""
+    //linea=ReadLine("<") ejemploFucion
+    //sscanf(linea,"%99",operacion)
+    //ejemplo
 }
 
 void SUM (char resgistroA, char registroB){
 
-    t_registros_cpu* resgistroAAplicar;
+    t_registros_cpu* registroDestino;
 
-    t_registros_cpu* registroBaSumar;
+    t_registros_cpu* registroOrigen;
+
+    //Probar Codigo 
 
     //AX
 
-        if(resgistroA=='AX'&& registroB=='BX') resgistroAAplicar->AX+registroBaSumar->BX;
+        if(resgistroA=='AX'&& registroB=='BX') registroDestino->AX= registroDestino->AX+registroOrigen->BX;
 
-        else if(resgistroA=='AX'&& registroB=='CX') resgistroAAplicar->AX+registroBaSumar->CX;
+        else if(resgistroA=='AX'&& registroB=='CX') registroDestino->AX=registroDestino->AX+registroOrigen->CX;
 
-        else if(resgistroA=='AX'&& registroB=='DX') resgistroAAplicar->AX+registroBaSumar->DX;
+        else if(resgistroA=='AX'&& registroB=='DX') registroDestino->AX=registroDestino->AX+registroOrigen->DX;
 
     //BX
 
-        else if(resgistroA=='BX'&& registroB=='AX') resgistroAAplicar->BX+registroBaSumar->AX;
+        else if(resgistroA=='BX'&& registroB=='AX') registroDestino->BX=registroDestino->BX+registroOrigen->AX;
 
-        else if(resgistroA=='BX'&& registroB=='CX') resgistroAAplicar->BX+registroBaSumar->CX;
+        else if(resgistroA=='BX'&& registroB=='CX') registroDestino->BX=registroDestino->BX+registroOrigen->CX;
 
-        else if(resgistroA=='BX'&& registroB=='DX') resgistroAAplicar->BX+registroBaSumar->DX;
+        else if(resgistroA=='BX'&& registroB=='DX') registroDestino->BX=registroDestino->BX+registroOrigen->DX;
 
     //CX
 
-        else if(resgistroA=='CX'&& registroB=='AX') resgistroAAplicar->CX+registroBaSumar->AX;
+        else if(resgistroA=='CX'&& registroB=='AX') registroDestino->CX=registroDestino->CX+registroOrigen->AX;
 
-        else if(resgistroA=='CX'&& registroB=='BX') resgistroAAplicar->CX+registroBaSumar->BX;
+        else if(resgistroA=='CX'&& registroB=='BX') registroDestino->CX=registroDestino->CX+registroOrigen->BX;
 
-        else if(resgistroA=='CX'&& registroB=='DX') resgistroAAplicar->CX+registroBaSumar->DX;
+        else if(resgistroA=='CX'&& registroB=='DX') registroDestino->CX=registroDestino->CX+registroOrigen->DX;
 
     //DX
 
-        else if(resgistroA=='DX'&& registroB=='AX') resgistroAAplicar->DX+registroBaSumar->AX;
+        else if(resgistroA=='DX'&& registroB=='AX') registroDestino->DX=registroDestino->DX+registroOrigen->AX;
 
-        else if(resgistroA=='DX'&& registroB=='BX') resgistroAAplicar->DX+registroBaSumar->BX;
+        else if(resgistroA=='DX'&& registroB=='BX') registroDestino->DX=registroDestino->DX+registroOrigen->BX;
 
-        else if(resgistroA=='DX'&& registroB=='CX') resgistroAAplicar->DX+registroBaSumar->CX;
+        else if(resgistroA=='DX'&& registroB=='CX') registroDestino->DX=registroDestino->DX+registroOrigen->CX;
 
 }
