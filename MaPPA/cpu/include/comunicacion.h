@@ -9,5 +9,5 @@
 #include "../../shared/include/estructuras_shared.h"
 #include "../../shared/include/sockets.h"
 
-int server_escucha(t_log* logger_server, char* server_name, int socket_server);
-void* server_hilo(void* args);
+void atender_conexion(t_log* logger, int cliente_socket);
+void* server_escuchar(void* args);
