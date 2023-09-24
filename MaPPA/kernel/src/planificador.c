@@ -1,13 +1,32 @@
 #include "../include/planificador.h"
+/////////////////////////
+// Inciar planificador //
+/////////////////////////
+
+void inicializarPlanificacion(){
+    pthread_t tid[2];
+    int HiloReadyDesdeNew = pthread_create(&(tid[0]), NULL, ingresarReadyDesdeNew, NULL);
+    int HiloExec = pthread_create(&(tid[1]), NULL, ingresarExec, NULL);
+}
+
+///////////////
+// crear pcb //
+///////////////
+
+/*
+t_pcb* iniciarPcb(t_proceso* proceso){
+
+}
+*/
+
 ////////////////////////////////
 // Ingresar de cada fila/cola //
 ///////////////////////////////
 
 // A New
-
-void ingresarNew(char* pcb){
+void ingresarNew(t_pcb* pcb){
     addEstadoNew(pcb);
-    //log_info(logger, "Se agrega el proceso:%d  a new", pcb->id);
+    log_info(logger, "Se agrega el proceso:%d  a new", pcb->pid);
     sem_post(&sem_hay_pcb_esperando_ready);
 }
 
@@ -21,26 +40,30 @@ void ingresarReadyDesdeNew(){
         sem_wait(&sem_hay_pcb_esperando_ready);
         sem_wait(&sem_multiprogramacion);  
         log_info(logger, "Grado multiprogramacion permite entrar");
-        char* pcb = obtenerSiguienteNew();
+        t_pcb* pcb = obtenerSiguienteNew();
         addEstadoReady(pcb);
+        log_info(logger, "Se agrega el proceso:%d  a Ready desde New", pcb->pid);
         sem_post(&sem_ready);
     }
 }
 void ingresarReadyDesdeExec(){
     //deberia haber algo que valide si esta algo en ejecucion?
-    char* pcb = obtenerProcesoExec();
-    pthread_mutex_unlock(&mutex_pcb_ejecutando);
-    addEstadoReady(pcb);
-    sem_post(&sem_ready);
-    log_info(logger, "Cambio proceso en ejecucion");
+    t_pcb* pcb = obtenerProcesoExec();
+    if (pcb != NULL) {
+        pthread_mutex_unlock(&mutex_pcb_ejecutando);
+        addEstadoReady(pcb);
+        log_info(logger, "Se agrega el proceso:%d  a Ready desde Exec",pcb->pid);
+        sem_post(&sem_ready);
+        log_info(logger, "");
+    }
 }
 
 void ingresarReadyDesdeBloqueado(){
     sem_wait(&sem_bloqueado);
-    char* pcb = obtenerSiguienteBloqueado();
+    t_pcb* pcb = obtenerSiguienteBloqueado();
     addEstadoReady(pcb);
     sem_post(&sem_ready);
-    log_info(logger, "Se desbloquea un proceso");    
+    log_info(logger, "Se agrega el proceso:%d  a Ready desde Bloqueado", pcb->pid);   
 }
 
 // A Exec
@@ -49,9 +72,9 @@ void ingresarExec(){
     while(1){
     pthread_mutex_lock(&mutex_pcb_ejecutando);
     sem_wait(&sem_ready);
-    char* pcb = obtenerSiguienteReady();
+    t_pcb* pcb = obtenerSiguienteReady();
     addEstadoExec(pcb);
-    log_info(logger, "Entra proceso a ejecucion");
+    log_info(logger, "Se agrega el proceso:%d  a Exec desde Ready", pcb->pid);
     }
 }
 
@@ -59,73 +82,83 @@ void ingresarExec(){
 
 void ingresarBloqueado(){
     sem_post(&sem_bloqueado);
-    char* pcb = obtenerProcesoExec();
+    t_pcb* pcb = obtenerProcesoExec();
     pthread_mutex_unlock(&mutex_pcb_ejecutando);
     addEstadoBloqueado(pcb);
-    log_info(logger, "Se bloquea un proceso");
+    log_info(logger, "Se agrega el proceso:%d  a Exec desde Bloqueado", pcb->pid);
 }
 
-// A Exit
+// A Exit (preguntar si es correcto sacar el proximo en ejecucion
+// o hay que hace exit de algun de forma especifica,
+// en este caso hay que diseñar una funcion general y que revise
+// donde esta el PCB y luego sacarlo de ahi y mandarlo a exit
+
+//void ingresarExit(t_pcb* pcb){
+//    
+//}
 
 void ingresarExitDesdeNew(){ 
     sem_wait(&sem_hay_pcb_esperando_ready);
-    char pcb = obtenerSiguienteNew();
+    t_pcb* pcb = queue_pop(estado_new);
     addEstadoExit(pcb);
-    log_info(logger, "Se libera un proceso desde New");
+    log_info(logger, "Se agrega el proceso:%d  a Exit desde New", pcb->pid);
 }
 
-void ingresarExitDesdeReady(char* pcb){
+void ingresarExitDesdeReady(t_pcb* pcb){
     sem_wait(&sem_ready);
     sem_post(&sem_multiprogramacion);
+    t_pcb* pcb = obtenerSiguienteReady(); 
     addEstadoExit(pcb);
-    log_info(logger, "Se libera un proceso desde Ready");
+    log_info(logger, "Se agrega el proceso:%d  a Exit desde Ready", pcb->pid);
 }
 
 void ingresarExitDesdeExec(){
     //hay que hacer algo que revise que no esta vacio?
-    char pcb = obtenerProcesoExec();
+    t_pcb* pcb = obtenerProcesoExec();
     pthread_mutex_unlock(&mutex_pcb_ejecutando);
     sem_post(&sem_multiprogramacion);
     addEstadoExit(pcb);
-    log_info(logger, "Se libera un proceso desde Exec");
+    log_info(logger, "Se agrega el proceso:%d  a Exit desde Exec", pcb->pid);
 }
 
 void ingresarExitDesdeBloq(){
     sem_wait(&sem_bloqueado);   
-    char pcb = obtenerSiguienteBloqueado();
+    t_pcb* pcb = obtenerSiguienteBloqueado();
     addEstadoExit(pcb);
     sem_post(&sem_multiprogramacion);
-    log_info(logger, "Se libera un proceso desde Bloqueado");
+    log_info(logger, "Se agrega el proceso:%d  a Exit desde Exec", pcb->pid);
 }
 
 /////////////////////////////////////////
 // Obtener siguiente de cada fila/cola //
 ////////////////////////////////////////
 
-char obtenerSiguienteNew(){
+t_pcb* obtenerSiguienteNew(){
     pthread_mutex_lock(&mutex_estado_new);
-    char* pcb = queue_pop(estado_new);
+    t_pcb* pcb = queue_pop(estado_new);
     pthread_mutex_unlock(&mutex_estado_new);
     return pcb;
 }
 
-char obtenerSiguienteBloqueado(){
+t_pcb* obtenerSiguienteBloqueado(){
     pthread_mutex_lock(&mutex_estado_bloqueado);
-    char* pcb = queue_pop(estado_bloqueado);
+    t_pcb* pcb = queue_pop(estado_bloqueado);
     pthread_mutex_unlock(&mutex_estado_bloqueado);
     return pcb;
 }
 //este va a cambiar segun el algoritmo de planificacion
-char obtenerSiguienteReady(){
+t_pcb* obtenerSiguienteReady(){
     pthread_mutex_lock(&mutex_estado_ready);
-    char* pcb = queue_pop(estado_ready);
+    t_pcb* pcb = list_get(estado_ready,0);
+    list_remove(estado_ready,0);
     pthread_mutex_unlock(&mutex_estado_ready);
     return pcb;
 }
 
-char obtenerProcesoExec(){
+t_pcb* obtenerProcesoExec(){
     pthread_mutex_lock(&mutex_estado_ejecutando);
-    char* pcb = queue_pop(estado_exec);
+    t_pcb* pcb = list_get(estado_exec,0);
+    list_remove(estado_exec,0);
     pthread_mutex_unlock(&mutex_estado_ejecutando);
     return pcb;
 }
@@ -135,32 +168,33 @@ char obtenerProcesoExec(){
 //////////////////////////////
 
 // Add a colas o lista con mutex 
-void addEstadoNew(char* pcb){
+void addEstadoNew(t_pcb* pcb){
     pthread_mutex_lock(&mutex_estado_new);
     queue_push(estado_new, (void*) pcb);
     pthread_mutex_unlock(&mutex_estado_new);
 }
 
-void addEstadoReady(char* pcb){   
+void addEstadoReady(t_pcb* pcb){   
     pthread_mutex_lock(&mutex_estado_ready);
-    list_add(estado_ready, (void*) pcb);
+    list_add(estado_ready, pcb);
     pthread_mutex_unlock(&mutex_estado_ready);
 }
 
-void addEstadoExit(char* pcb){   
+void addEstadoExit(t_pcb* pcb){   
     pthread_mutex_lock(&mutex_estado_exit);
-    queue_push(estado_exit, (void*) pcb);
+    list_add(estado_exit, pcb);
     pthread_mutex_unlock(&mutex_estado_exit);
 }
 
-void addEstadoExec(char* pcb){   
+void addEstadoExec(t_pcb* pcb){   
     pthread_mutex_lock(&mutex_estado_ejecutando);
-    queue_push(estado_exec, (void*) pcb);
+    list_add(estado_exec, pcb);
     pthread_mutex_unlock(&mutex_estado_ejecutando);
 }
 
-void addEstadoBloqueado(char* pcb){   
+void addEstadoBloqueado(t_pcb* pcb){   
     pthread_mutex_lock(&mutex_estado_bloqueado);
-    queue_push(estado_bloqueado, (void*) pcb);
+    queue_push(estado_bloqueado,pcb);
     pthread_mutex_unlock(&mutex_estado_bloqueado);
 }
+
