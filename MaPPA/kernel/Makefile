@@ -9,7 +9,7 @@ OBJ = $(SRC:%.c=./obj/%.o)
 
 SHARED = $(shell find ../shared/obj/*.o)
 
-LINK = -lpthread -lcommons -lm
+LINK = -lpthread -lcommons -lm -lreadline
 CFLAGS = -c
 
 build: makefolder makeshared $(OBJ)
