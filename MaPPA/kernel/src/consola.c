@@ -1,4 +1,5 @@
 #include "../include/consola.h"
+
 void iniciarConsola(){
     char * operacion = "";
     while(1){ 
