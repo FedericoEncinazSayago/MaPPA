@@ -81,8 +81,8 @@ void iniciar_modulo(t_log* logger_cpu, t_config_cpu* config_cpu) {
     args_it->socket_server = md_cpu_it;
     args_it->server_name = "INTERRUPT";
     
-    pthread_create(&hilo_cpu_ds, NULL, server_hilo, (void*) args_ds); 
-    pthread_create(&hilo_cpu_it, NULL, server_hilo, (void*) args_it);
+    pthread_create(&hilo_cpu_ds, NULL, server_escuchar, (void*) args_ds); 
+    pthread_create(&hilo_cpu_it, NULL, server_escuchar, (void*) args_it);
 }
 
 void cerrar_programa(t_log* logger) {

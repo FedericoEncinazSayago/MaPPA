@@ -7,4 +7,10 @@ typedef struct {
     int puerto_escucha_interrupt; 
 } t_config_cpu;
 
+typedef struct {
+    t_log* logger;
+    char* server_name;
+    int socket_server;
+} t_procesar_server; 
+
 #endif /* ESTRUCTURAS_cpu_H_ */
