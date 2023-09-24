@@ -9,8 +9,6 @@ void inicializarPlanificacion(){
     int HiloExec = pthread_create(&(tid[1]), NULL, ingresarExec, NULL);
     pthread_join(HiloReadyDesdeNew,NULL);
     pthread_join(HiloExec,NULL);
-
-
 }
 
 ///////////////
@@ -91,7 +89,7 @@ void ingresarExec(){
 
 // A Bloq
 
-void ingresarBloqueado(){
+void ingresarBloqueado(){ // si solo se entre por I/O y los I/O son siempre temporales estaria bueno definir como parametro cuanto tiempo se bloquea y asi se va liberando
     sem_post(&sem_bloqueado);
     t_pcb* pcb = obtenerProcesoExec();
     pthread_mutex_unlock(&mutex_pcb_ejecutando);

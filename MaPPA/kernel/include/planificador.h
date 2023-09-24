@@ -20,11 +20,10 @@ pthread_mutex_t mutex_estado_new;
 pthread_mutex_t mutex_estado_ready;
 pthread_mutex_t mutex_estado_exit;
 pthread_mutex_t mutex_estado_bloqueado;
-//pthread_mutex_t mutex_estado_suspendido;
 pthread_mutex_t mutex_estado_ejecutando;
 
 //Semaforo binario
-pthread_mutex_t mutex_pcb_ejecutando; //no entiendo si tiene que ser otro tipo de sem
+pthread_mutex_t mutex_pcb_ejecutando;
 
 //Semaforos contadores
 sem_t sem_multiprogramacion; //inicia en el grado multriprogamacion
