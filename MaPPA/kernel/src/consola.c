@@ -2,9 +2,10 @@
 
 void iniciarConsola(){
     char * operacion = "";
+    char* linea = "";
     while(1){ 
-        char* linea = readline("> ");
-
+        linea = readline("> ");
+        printf("Algo");
         if(sscanf(linea, "%99s", operacion) == 1) {
             if (operacion = "INICIAR_PROCESO"){
                 printf("Entre a Inciar proceso");

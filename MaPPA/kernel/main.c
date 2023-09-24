@@ -23,8 +23,14 @@ int main() {
     // EXIT = crear_cola()
 
     int md_memoria = 0, md_cpu_dt = 0, md_cpu_it = 0, md_fs = 0;
-
+    /*
     if(!cargar_configuraciones(config_kernel, logger_kernel) || !generar_conexiones(logger_kernel, config_kernel, &md_memoria, &md_cpu_dt, &md_cpu_it, &md_fs)) { // Generar conexiones, no va a mantener la conexion, sino que va a crear la conexion y la va a cerrar!
+        log_error(logger_kernel, "No se pudieron generar las conexiones");
+
+        return 1;
+    }
+    */
+    if(!cargar_configuraciones(config_kernel, logger_kernel)) { // Generar conexiones, no va a mantener la conexion, sino que va a crear la conexion y la va a cerrar!
         log_error(logger_kernel, "No se pudieron generar las conexiones");
 
         return 1;
