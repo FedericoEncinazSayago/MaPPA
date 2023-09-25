@@ -84,6 +84,7 @@ void agregar_a_paquete_archivos_abiertos(t_paquete* paquete, t_list* archivos_ab
 
     for(int i = 0; i < cantidad_archivos; i++) {
         char* archivo = list_get(archivos_abiertos, i);
+        printf("Archivo abierto: %s\n", archivo);
         agregar_a_paquete_string(paquete, archivo, strlen(archivo) + 1);
     }
 }
@@ -107,7 +108,7 @@ void agregar_a_paquete_string(t_paquete* paquete, char* cadena, int tamanio) {
 t_pcb* rcv_contexto_ejecucion(int socket_cliente) {
     t_pcb* proceso = malloc(sizeof(t_pcb));
     proceso->registros = malloc(sizeof(t_registros_cpu));
-    proceso->archivos_abiertos = malloc(sizeof(t_list));
+    proceso->archivos_abiertos = list_create();
 
     // PCB -> PID, PC, Registros, Archivos abiertos
     int size;
@@ -133,16 +134,18 @@ t_pcb* rcv_contexto_ejecucion(int socket_cliente) {
     desplazamiento += sizeof(uint32_t);
 
     int tamanio;
-   
-    while(desplazamiento < size) {
-        memcpy(&tamanio, buffer + desplazamiento, sizeof(int));
 
+    while(desplazamiento < size) {
+
+        memcpy(&tamanio, buffer + desplazamiento, sizeof(int));
+        desplazamiento += sizeof(int);
         char* archivo = malloc(tamanio);
         memcpy(archivo, buffer + desplazamiento, tamanio);
-        desplazamiento += tamanio;
+        desplazamiento += tamanio + 1;
 
         list_add(proceso->archivos_abiertos, archivo);
     }
+
 
     free(buffer);
     return proceso;

@@ -1,7 +1,5 @@
 #include "../include/comunicacion.h"
 
-t_pcb* proceso = NULL;
-
 void atender_conexion(t_log* logger, char* server_name, int cliente_socket) { // Si el server tuviera que procesar varias solicitudes del mismo cliente, esto debería ser un while
     op_code cop;
 
@@ -17,19 +15,10 @@ void atender_conexion(t_log* logger, char* server_name, int cliente_socket) { //
             
             case EJECUTAR_PROCESO:
             {
-                proceso = rcv_contexto_ejecucion(cliente_socket);
-
-                printf("Proceso recibido: %d\n", proceso->pid);
-                printf("Proceso recibido: %d\n", proceso->program_counter);
-                printf("Registro A: %d\n", proceso->registros->AX);
-                printf("Registro B: %d\n", proceso->registros->BX);
-                printf("Registro C: %d\n", proceso->registros->CX);
-                printf("Registro D: %d\n", proceso->registros->DX);
-                char* archivo = list_get(proceso->archivos_abiertos, 0);
-                printf("Archivo de codigo recibido: %s\n", archivo);
+                t_pcb* proceso = rcv_contexto_ejecucion(cliente_socket);
 
                 //ciclo_de_instruccion(proceso);
-                send_contexto_ejecucion(RECIBIR_PROCESO, cliente_socket, proceso);
+                //send_contexto_ejecucion(RECIBIR_PROCESO, cliente_socket, proceso);
                 //check_interrupt = false;
                 break;
             }
@@ -39,7 +28,7 @@ void atender_conexion(t_log* logger, char* server_name, int cliente_socket) { //
             }
             case DEVOLVER_PROCESO:
             {
-                send_contexto_ejecucion(RECIBIR_PROCESO, cliente_socket, proceso);
+                //send_contexto_ejecucion(RECIBIR_PROCESO, cliente_socket, proceso);
                 break;
             }
 
@@ -64,7 +53,6 @@ void server_escuchar(void* args) {
     t_log* logger_server = args_hilo->logger;
     char* server_name = args_hilo->server_name;
     int socket_server = args_hilo->socket_server;
-
 
     while (1)
     {
