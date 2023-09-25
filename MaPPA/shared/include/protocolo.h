@@ -49,6 +49,7 @@ void send_contexto_ejecucion(op_code operacion, int socket_cliente, t_pcb* proce
 void agregar_a_paquete_PCB(t_paquete* paquete, t_pcb* proceso);
 void agregar_a_paquete_registros(t_paquete* paquete, t_registros_cpu* registros);
 void agregar_a_paquete_archivos_abiertos(t_paquete* paquete, t_list* archivos_abiertos);
+void agregar_a_paquete_string(t_paquete* paquete, void* valor, int tamanio);
 t_pcb* rcv_contexto_ejecucion(int socket_cliente);
 
 #endif

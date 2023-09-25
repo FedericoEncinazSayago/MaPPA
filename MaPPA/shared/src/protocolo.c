@@ -84,8 +84,17 @@ void agregar_a_paquete_archivos_abiertos(t_paquete* paquete, t_list* archivos_ab
 
     for(int i = 0; i < cantidad_archivos; i++) {
         char* archivo = list_get(archivos_abiertos, i);
-        agregar_a_paquete(paquete, archivo, strlen(archivo) + 1);
+        agregar_a_paquete_string(paquete, archivo, strlen(archivo) + 1);
     }
+}
+
+void agregar_a_paquete_string(t_paquete* paquete, void* valor, int tamanio) {
+	paquete->buffer->stream = realloc(paquete->buffer->stream, paquete->buffer->size + tamanio + sizeof(int));
+
+	memcpy(paquete->buffer->stream + paquete->buffer->size, &tamanio, sizeof(int));
+	memcpy(paquete->buffer->stream + paquete->buffer->size + sizeof(int), valor, tamanio);
+
+	paquete->buffer->size += tamanio + sizeof(int);
 }
 
 t_pcb* rcv_contexto_ejecucion(int socket_cliente) {
@@ -119,17 +128,11 @@ t_pcb* rcv_contexto_ejecucion(int socket_cliente) {
     int tamanio;
    
     while(desplazamiento < size) {
-        printf("Archivo abierto: ");
         memcpy(&tamanio, buffer + desplazamiento, sizeof(int));
-        desplazamiento += sizeof(int);
-
-        printf("Archivo abierto: ");
 
         char* archivo = malloc(tamanio);
         memcpy(archivo, buffer + desplazamiento, tamanio);
         desplazamiento += tamanio;
-
-        printf("Archivo abierto: %s\n", archivo);
 
         list_add(proceso->archivos_abiertos, archivo);
     }
