@@ -17,6 +17,7 @@ typedef enum {
     EJECUTAR_PROCESO,
     INTERRUPT,
     RECIBIR_PROCESO,
+    DEVOLVER_PROCESO,
     MENSAJES,
 } op_code;
 

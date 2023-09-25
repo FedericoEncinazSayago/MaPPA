@@ -13,12 +13,12 @@ bool generar_conexiones(t_log* logger, t_config_k* config_kernel ,int* md_memori
 
     *md_cpu_dt = crear_conexion(logger, "CPU-DT", ip_cpu, puerto_cpu_dispatch);
     *md_cpu_it = crear_conexion(logger, "CPU-IT", ip_cpu, puerto_cpu_interrupt);
-    *md_memoria = crear_conexion(logger, "MEMORIA", ip_memoria, puerto_memoria); // Valores leidos de archivo de configuracion!
-    *md_fs = crear_conexion(logger, "FILESYSTEM",ip_fs, puerto_fs); 
+    // *md_memoria = crear_conexion(logger, "MEMORIA", ip_memoria, puerto_memoria); // Valores leidos de archivo de configuracion!
+    // *md_fs = crear_conexion(logger, "FILESYSTEM",ip_fs, puerto_fs); 
     
     // No existe valores por referencias en C! Primero le sacamos la direccion de memoria a la variable, y despues con *variable asignamos el nuevo valor!
 
-    return *md_memoria != 0 && *md_fs != 0 && *md_cpu_dt != 0 && *md_cpu_it != 0; // Aca pregunto por el nuevo valor!
+    return /* *md_memoria != 0 && *md_fs != 0 && */ *md_cpu_dt != 0 && *md_cpu_it != 0; // Aca pregunto por el nuevo valor!
 }
 
 bool cargar_configuraciones(t_config_k* config_kernel, t_log* logger) {

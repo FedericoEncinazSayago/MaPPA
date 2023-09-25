@@ -85,7 +85,7 @@ void iniciar_modulo(t_log* logger_cpu, t_config_cpu* config_cpu) {
     args_it->server_name = "INTERRUPT";
 
     pthread_create(&hilo_cpu_ds, NULL, (void*) server_escuchar, (void*) args_ds); 
-    pthread_create(&hilo_cpu_it, NULL, server_escuchar, (void*) args_it);
+    pthread_create(&hilo_cpu_it, NULL, (void*) server_escuchar, (void*) args_it);
 
     pthread_join(hilo_cpu_ds, NULL);
     pthread_join(hilo_cpu_it, NULL);

@@ -30,8 +30,31 @@ int main() {
         return 1;
     }
 
+    t_pcb* pcb = malloc(sizeof(t_pcb));
+    pcb->pid = 1;
+    pcb->program_counter = 10;
+    pcb->registros = malloc(sizeof(t_registros_cpu));
+    pcb->registros->AX = 2;
+    pcb->registros->BX = 5;
+    pcb->registros->CX = 3;
+    pcb->registros->DX = 4;
+    pcb->archivos_abiertos = malloc(sizeof(t_list));
+    list_add(pcb->archivos_abiertos, "archivo1.txt");
+
+    send_contexto_ejecucion(EJECUTAR_PROCESO, md_cpu_dt, pcb); // Le mando el PCB a la CPU para que ejecute!
+    op_code codigo = DEVOLVER_PROCESO;
+    //send(md_cpu_dt, &codigo, sizeof(op_code), 0); // Le mando el codigo de operacion (devolver proceso) a la CPU para que me devuelva el PCB!
+    // t_pcb* pcb2 = rcv_contexto_ejecucion(md_cpu_dt); // Recibo el PCB de la CPU!
+    /*
+    printf("Proceso recibido: %d\n", pcb2->pid);
+    printf("Proceso recibido: %d\n", pcb2->program_counter);
+    printf("Registro A: %d\n", pcb2->registros->AX);
+    printf("Registro B: %d\n", pcb2->registros->BX);
+    printf("Registro C: %d\n", pcb2->registros->CX);
+    printf("Registro D: %d\n", pcb2->registros->DX);
+    */
     // Fede en momento de insipiracion!
-    iniciar_modulo() // Funcion en proceso de creacion! 
+    //iniciar_modulo(); // Funcion en proceso de creacion! 
 
     cerrar_programa(logger_kernel);
 

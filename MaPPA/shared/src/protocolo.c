@@ -14,16 +14,13 @@ void crear_buffer(t_paquete* paquete) {
 }
 
 void agregar_a_paquete(t_paquete* paquete, void* valor, int tamanio) {
-	paquete->buffer->stream = realloc(paquete->buffer->stream, paquete->buffer->size + tamanio + sizeof(int));
-
-	memcpy(paquete->buffer->stream + paquete->buffer->size, &tamanio, sizeof(int));
-	memcpy(paquete->buffer->stream + paquete->buffer->size + sizeof(int), valor, tamanio);
-
-	paquete->buffer->size += tamanio + sizeof(int);
+	paquete->buffer->stream = realloc(paquete->buffer->stream, paquete->buffer->size + tamanio);
+	memcpy(paquete->buffer->stream + paquete->buffer->size, valor, tamanio);
+	paquete->buffer->size += tamanio;
 }
 
 void enviar_paquete(t_paquete* paquete, int socket_cliente) {
-	int bytes = paquete->buffer->size + 2 * sizeof(int);
+	int bytes = paquete->buffer->size + sizeof(op_code) + sizeof(uint32_t);
 	void* a_enviar = serializar_paquete(paquete, bytes);
 
 	send(socket_cliente, a_enviar, bytes, 0);
@@ -35,12 +32,11 @@ void* serializar_paquete(t_paquete* paquete, int bytes) {
 	void * magic = malloc(bytes);
 	int desplazamiento = 0;
 
-	memcpy(magic + desplazamiento, &(paquete->codigo_operacion), sizeof(int));
-	desplazamiento+= sizeof(int);
-	memcpy(magic + desplazamiento, &(paquete->buffer->size), sizeof(int));
-	desplazamiento+= sizeof(int);
+	memcpy(magic + desplazamiento, &(paquete->codigo_operacion), sizeof(op_code));
+	desplazamiento += sizeof(op_code);
+	memcpy(magic + desplazamiento, &(paquete->buffer->size),sizeof(uint32_t));
+	desplazamiento += sizeof(uint32_t);
 	memcpy(magic + desplazamiento, paquete->buffer->stream, paquete->buffer->size);
-	desplazamiento+= paquete->buffer->size;
 
 	return magic;
 }
@@ -95,7 +91,7 @@ void agregar_a_paquete_archivos_abiertos(t_paquete* paquete, t_list* archivos_ab
 t_pcb* rcv_contexto_ejecucion(int socket_cliente) {
     t_pcb* proceso = malloc(sizeof(t_pcb));
     proceso->registros = malloc(sizeof(t_registros_cpu));
-    proceso->archivos_abiertos = list_create();
+    proceso->archivos_abiertos = malloc(sizeof(t_list));
 
     // PCB -> PID, PC, Registros, Archivos abiertos
     int size;
@@ -121,14 +117,19 @@ t_pcb* rcv_contexto_ejecucion(int socket_cliente) {
     desplazamiento += sizeof(uint32_t);
 
     int tamanio;
-
+   
     while(desplazamiento < size) {
+        printf("Archivo abierto: ");
         memcpy(&tamanio, buffer + desplazamiento, sizeof(int));
         desplazamiento += sizeof(int);
+
+        printf("Archivo abierto: ");
 
         char* archivo = malloc(tamanio);
         memcpy(archivo, buffer + desplazamiento, tamanio);
         desplazamiento += tamanio;
+
+        printf("Archivo abierto: %s\n", archivo);
 
         list_add(proceso->archivos_abiertos, archivo);
     }
