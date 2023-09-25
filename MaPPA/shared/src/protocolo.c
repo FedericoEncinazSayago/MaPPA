@@ -34,7 +34,7 @@ void* serializar_paquete(t_paquete* paquete, int bytes) {
 
 	memcpy(magic + desplazamiento, &(paquete->codigo_operacion), sizeof(op_code));
 	desplazamiento += sizeof(op_code);
-	memcpy(magic + desplazamiento, &(paquete->buffer->size),sizeof(uint32_t));
+	memcpy(magic + desplazamiento, &(paquete->buffer->size), sizeof(uint32_t));
 	desplazamiento += sizeof(uint32_t);
 	memcpy(magic + desplazamiento, paquete->buffer->stream, paquete->buffer->size);
 
@@ -88,14 +88,21 @@ void agregar_a_paquete_archivos_abiertos(t_paquete* paquete, t_list* archivos_ab
     }
 }
 
-void agregar_a_paquete_string(t_paquete* paquete, void* valor, int tamanio) {
-	paquete->buffer->stream = realloc(paquete->buffer->stream, paquete->buffer->size + tamanio + sizeof(int));
+void agregar_a_paquete_string(t_paquete* paquete, char* cadena, int tamanio) {
+    int cadena_length = string_length(cadena);
+    size_t size = sizeof(int);  // Tamaño en bytes de un entero
+    
+    // Expandir el tamaño del buffer del paquete para acomodar la longitud de la cadena
+    paquete->buffer->stream = realloc(paquete->buffer->stream, paquete->buffer->size + size);
+    memcpy(paquete->buffer->stream + paquete->buffer->size, &cadena_length, size);
+    paquete->buffer->size += size;
 
-	memcpy(paquete->buffer->stream + paquete->buffer->size, &tamanio, sizeof(int));
-	memcpy(paquete->buffer->stream + paquete->buffer->size + sizeof(int), valor, tamanio);
-
-	paquete->buffer->size += tamanio + sizeof(int);
+    // Expandir el tamaño del buffer para acomodar la cadena
+    paquete->buffer->stream = realloc(paquete->buffer->stream, paquete->buffer->size + tamanio);
+    memcpy(paquete->buffer->stream + paquete->buffer->size, cadena, tamanio);
+    paquete->buffer->size += tamanio;
 }
+
 
 t_pcb* rcv_contexto_ejecucion(int socket_cliente) {
     t_pcb* proceso = malloc(sizeof(t_pcb));
