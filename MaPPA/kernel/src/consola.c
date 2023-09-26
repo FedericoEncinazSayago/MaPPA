@@ -1,16 +1,23 @@
 #include "../include/consola.h"
-
+// OBJETIVOS 
 void iniciarConsola(){
-    char * operacion = NULL;
+    char * operacion =NULL;
     char* linea = NULL;
+    operacion=(char *)malloc(100);
     while(1){ 
         linea = readline("> ");
-        if(sscanf(linea, "%99s", operacion) == 1) {
-            if (operacion = "INICIAR_PROCESO"){
+        printf("linea: %s\n", linea);
+        if(sscanf(linea, "%99s", operacion)== 1) {
+            if (strcmp(operacion, "h") == 0) {
+                printf("A DOMIr\n");
+            }
+
+
+            if (operacion=="INICIAR_PROCESO"){
                 printf("Entre a Inciar proceso");
                 //create hilo 
-                        //t_pcb* pcb = inciarPCB()
-                        //ingresarNew(pcb);
+                    //t_pcb* pcb = inciarPCB()
+                    //ingresarNew(pcb);
                 //join hilo
             }else if (operacion = "FINALIZAR_PROCESO"){
                 printf("Entre Finalizar proceso");
