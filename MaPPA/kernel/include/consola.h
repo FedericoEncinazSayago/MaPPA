@@ -11,16 +11,23 @@
 
 typedef struct {
     char* nombre;
-    void* funcion;
+    void* (*funcion)(void*); // Firma de las funciones!
 } COMMAND;
 
+// Consola
 void iniciar_consola();
-char* eliminar_espacio(char* cadena);
+char* eliminar_espacios(char* cadena);
+
+// Readline
+void iniciar_readline();
+char** completar_MaPPA(const char* texto, int inicio, int fin);
+char* generador_de_comandos(const char* texto, int estado);
+
+// Ejecución de comandos
 int ejecutar_comando(char* linea);
 COMMAND* encontrar_comando(char* nombre);
-void iniciar_readline();
-char* generador_de_comandos(const char* texto, int estado);
-char** completar_MaPPA(const char* texto, int inicio, int fin);
+
+// Comandos
 void* iniciar_proceso(void* args);
 
 #endif

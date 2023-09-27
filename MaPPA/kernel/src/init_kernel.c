@@ -89,5 +89,5 @@ void cerrar_programa(t_log* logger) {
 
 
  void iniciar_modulo(){
-    iniciarConsola();
+    iniciar_consola();
  }

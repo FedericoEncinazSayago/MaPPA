@@ -76,3 +76,31 @@ void recorrer_vector_char(char* vector[]) {
     for(int i = 0; vector[i] != NULL; i++)
         printf("%s\n", vector[i]);
 }
+
+char* eliminar_espacios(char* cadena) {
+    char* aux = cadena;
+    char* aux2;
+
+    // Elimina los espacios en blanco al principio de la cadena
+    while (*aux && isspace(*aux))
+        aux++;
+
+    if (*aux == '\0') {
+        // Si la cadena queda vacía después de eliminar espacios en blanco,
+        // se retorna una cadena vacía
+        return aux;
+    }
+
+    aux2 = aux + strlen(aux) - 1;
+
+    // Elimina los espacios en blanco al final de la cadena
+    while (aux2 > aux && isspace(*aux2))
+        aux2--;
+
+    // Coloca el carácter nulo '\0' después del último carácter no espacio en blanco
+    *(++aux2) = '\0';
+
+    // Retorna la dirección del primer carácter no espacio en blanco
+    return aux;
+}
+

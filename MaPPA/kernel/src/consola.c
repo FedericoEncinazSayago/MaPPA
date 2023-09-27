@@ -34,33 +34,6 @@ void iniciar_consola() {
     }
 }
 
-char* eliminar_espacio(char* cadena) {
-    char* aux = cadena;
-    char* aux2;
-
-    // Elimina los espacios en blanco al principio de la cadena
-    while (*aux && isspace(*aux))
-        aux++;
-
-    if (*aux == '\0') {
-        // Si la cadena queda vacía después de eliminar espacios en blanco,
-        // se retorna una cadena vacía
-        return aux;
-    }
-
-    aux2 = aux + strlen(aux) - 1;
-
-    // Elimina los espacios en blanco al final de la cadena
-    while (aux2 > aux && isspace(*aux2))
-        aux2--;
-
-    // Coloca el carácter nulo '\0' después del último carácter no espacio en blanco
-    *(++aux2) = '\0';
-
-    // Retorna la dirección del primer carácter no espacio en blanco
-    return aux;
-}
-
 
 int ejecutar_comando(char* linea) {
     int i = 0;
@@ -91,7 +64,9 @@ int ejecutar_comando(char* linea) {
 
     palabra = linea + i;
 
-    return (*(comando->funcion) (palabra));
+    (*(comando->funcion) (palabra));
+
+    return;
 }
 
 COMMAND* encontrar_comando(char* nombre) {
@@ -137,5 +112,7 @@ char* generador_de_comandos(const char* texto, int estado) {
 }
 
 void* iniciar_proceso(void* args) {
+    char *argumento = (char*) args;
     printf("Iniciando proceso...\n");
+    printf("Argumento: %s\n", argumento);
 }
