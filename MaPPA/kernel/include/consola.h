@@ -21,5 +21,6 @@ COMMAND* encontrar_comando(char* nombre);
 void iniciar_readline();
 char* generador_de_comandos(const char* texto, int estado);
 char** completar_MaPPA(const char* texto, int inicio, int fin);
+void* iniciar_proceso(void* args);
 
 #endif
