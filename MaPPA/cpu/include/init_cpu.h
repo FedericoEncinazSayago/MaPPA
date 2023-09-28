@@ -6,6 +6,8 @@
 #include "../../shared/include/estructuras_shared.h"
 bool generar_conexiones(t_log* logger, int* md_memoria);
 void cerrar_programa(t_log* logger);
-void SUM (char registroA, char registroB);
-void SET(char registro,uint8_t valor);
+void SUM(t_registros_cpu* registroDestino,  t_registros_cpu* registroOrigen) ;
+void SET(char* registro,uint8_t valor);
+
+void SUB(t_registros_cpu* registroDestino,  t_registros_cpu* registroOrigen) ;
 #endif

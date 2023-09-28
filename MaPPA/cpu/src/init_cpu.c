@@ -73,44 +73,43 @@ void SET(char registro,uint8_t valor){
     //ejemplo
 }
 
-void SUM (char registroA, char registroB){
 
-    t_registros_cpu* registroDestino;
+//    sum(char** registroDestino, char** registroOrigen);
+void SUM(t_registros_cpu* registroDestino,  t_registros_cpu* registroOrigen) {
+    registroDestino->valor1 += registroOrigen->valor1;
+	
+       printf("ValorSum: %d\n", registroDestino.valor1);
+}
 
-    t_registros_cpu* registroOrigen;
 
-    //Probar Codigo 
 
-    //AX
+//Propotipo de SUB(AX,&BX) BX guarda la resta de AX
 
-        if(registroA=='AX'&& registroB=='BX') registroDestino->AX= registroDestino->AX+registroOrigen->BX;
+void SUB(t_registros_cpu* registroDestino,  t_registros_cpu* registroOrigen) {
 
-        else if(registroA=='AX'&& registroB=='CX') registroDestino->AX=registroDestino->AX+registroOrigen->CX;
+        registroDestino->valor1 -= registroOrigen->valor1;
+	
+       printf("ValorSub: %d\n", registroDestino.valor1);
+}
 
-        else if(registroA=='AX'&& registroB=='DX') registroDestino->AX=registroDestino->AX+registroOrigen->DX;
 
-    //BX
+//Propotipo de EXIT
 
-        else if(registroA=='BX'&& registroB=='AX') registroDestino->BX=registroDestino->BX+registroOrigen->AX;
+void EXIT(int contextoDeEjecucion) {
+    // Realizar cualquier procesamiento necesario antes de salir
 
-        else if(registroA=='BX'&& registroB=='CX') registroDestino->BX=registroDestino->BX+registroOrigen->CX;
+    // Salir del programa con el contexto de ejecución proporcionado
+    exit(contextoDeEjecucion);
+}
 
-        else if(registroA=='BX'&& registroB=='DX') registroDestino->BX=registroDestino->BX+registroOrigen->DX;
+int main() {
+    // Realizar operaciones en el programa
 
-    //CX
+    // Llamar a la función EXIT con un contexto específico
+    EXIT(42);
 
-        else if(registroA=='CX'&& registroB=='AX') registroDestino->CX=registroDestino->CX+registroOrigen->AX;
+    // Este código nunca se ejecutará, ya que EXIT sale del programa
+    printf("Este mensaje nunca se mostrará.\n");
 
-        else if(registroA=='CX'&& registroB=='BX') registroDestino->CX=registroDestino->CX+registroOrigen->BX;
-
-        else if(registroA=='CX'&& registroB=='DX') registroDestino->CX=registroDestino->CX+registroOrigen->DX;
-
-    //DX
-
-        else if(registroA=='DX'&& registroB=='AX') registroDestino->DX=registroDestino->DX+registroOrigen->AX;
-
-        else if(registroA=='DX'&& registroB=='BX') registroDestino->DX=registroDestino->DX+registroOrigen->BX;
-
-        else if(registroA=='DX'&& registroB=='CX') registroDestino->DX=registroDestino->DX+registroOrigen->CX;
-
+    return 0;
 }
