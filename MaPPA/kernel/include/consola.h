@@ -8,6 +8,7 @@
 #include <sys/errno.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "../../shared/include/utils.h"
 
 typedef struct {
     char* nombre;
@@ -16,7 +17,6 @@ typedef struct {
 
 // Consola
 void iniciar_consola();
-char* eliminar_espacios(char* cadena);
 
 // Readline
 void iniciar_readline();
